@@ -23,6 +23,9 @@
   networking = {
     hostName = "nixos";
     networkmanager.enable = true;
+    firewall = {
+      enable = true;
+    };
   };
 
   # Time zone and localization
@@ -84,19 +87,9 @@
 
   # System packages
   environment.systemPackages = with pkgs; [
-    kitty
     fish
     home-manager
     python311
-    python311Packages.torch-bin
-    python311Packages.torchaudio-bin
-    python311Packages.torch-audiomentations
-    python311Packages.librosa
-    python311Packages.jiwer
-    python311Packages.datasets
-    python311Packages.transformers
-    python311Packages.evaluate
-    python311Packages.accelerate
     python311Packages.pip
     wget
     git

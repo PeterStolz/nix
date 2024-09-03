@@ -11,6 +11,7 @@
     programs.fish = {
       enable = true;
       interactiveShellInit = ''
+        starship init fish | source
         set fish_greeting # Disable greeting
         set -x CUDA_PATH ${pkgs.cudatoolkit}
       '';
