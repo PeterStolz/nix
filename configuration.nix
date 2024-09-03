@@ -104,9 +104,10 @@
   ];
 
   # Program configurations
-  programs.firefox.enable = true;
   programs.fish.enable = true;
   programs.neovim = {
+    viAlias = true;
+    vimAlias = true;
     enable = true;
     defaultEditor = true;
   };
