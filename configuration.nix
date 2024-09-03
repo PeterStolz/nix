@@ -94,6 +94,7 @@
     wget
     git
     nixfmt-rfc-style
+    vimPlugins.gruvbox
   ];
 
   # Program configurations
@@ -103,6 +104,26 @@
     vimAlias = true;
     enable = true;
     defaultEditor = true;
+    withNodeJs = true;
+    withPython3 = true;
+    configure = {
+      customRC = ''
+        set number relativenumber
+        set tabstop=2 shiftwidth=2 expandtab
+        syntax enable
+
+        autocmd BufRead,BufNewFile Tiltfile set filetype=python
+
+        set list listchars=eol:$
+        colorscheme gruvbox
+      '';
+      packages.myVimPackage = with pkgs.vimPlugins; {
+        # loaded on launch
+        start = [ gruvbox ];
+        # manually loadable by calling `:packadd $plugin-name`
+        opt = [ ];
+      };
+    };
   };
 
   # Nvidia configuration
