@@ -1,13 +1,39 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
-  username = "peter";  # Define the username here
+  username = "peter"; # Define the username here
 in
 {
   imports = [
-    (import ./firefox.nix { inherit config lib pkgs username; })
-    (import ./fish.nix { inherit config lib pkgs username; })
-    (import ./neovim.nix { inherit config lib pkgs username; })
+    (import ./firefox.nix {
+      inherit
+        config
+        lib
+        pkgs
+        username
+        ;
+    })
+    (import ./fish.nix {
+      inherit
+        config
+        lib
+        pkgs
+        username
+        ;
+    })
+    (import ./neovim.nix {
+      inherit
+        config
+        lib
+        pkgs
+        username
+        ;
+    })
   ];
 
   home-manager.users.${username} = {

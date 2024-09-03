@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   imports = [
@@ -36,10 +41,10 @@
   };
 
   # X11 and KDE Plasma
+  services.displayManager.sddm.enable = true;
+  services.desktopManager.plasma6.enable = true;
   services.xserver = {
     enable = true;
-    displayManager.sddm.enable = true;
-    desktopManager.plasma6.enable = true;
     xkb = {
       layout = "us";
       variant = "";
@@ -69,10 +74,12 @@
   users.users.peter = {
     isNormalUser = true;
     description = "peter";
-    extraGroups = [ "networkmanager" "wheel" "docker" ];
-    packages = with pkgs; [
-      kdePackages.kate
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "docker"
     ];
+    packages = with pkgs; [ kdePackages.kate ];
   };
 
   # System packages
