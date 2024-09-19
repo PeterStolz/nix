@@ -1,7 +1,4 @@
-{
-  pkgs,
-  ...
-}:
+{ pkgs, ... }:
 let
   lock-false = {
     Value = false;
@@ -13,6 +10,7 @@ let
   };
 in
 {
+  enable = true;
   package = pkgs.wrapFirefox pkgs.firefox-unwrapped {
     extraPolicies = {
       DisableTelemetry = true;
