@@ -16,4 +16,4 @@ jobs:
         nix_path: nixpkgs=channel:nixos-unstable
     - name: Run nixfmt
       run: |
-        nix-shell -p nixfmt --run "nixfmt -v **/*.nix"
+        nix-shell -p nixfmt-rfc-style --run "nixfmt -c **/*.nix"
