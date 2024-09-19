@@ -9,7 +9,6 @@
   imports = [
     ./hardware-configuration.nix
     <home-manager/nixos>
-    ./home-manager/default.nix
   ];
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -78,6 +77,7 @@
 
   # User configuration
   users.defaultUserShell = pkgs.bash;
+  home-manager.users.peter = import ./home-manager/home.nix;
   users.users.peter = {
     isNormalUser = true;
     description = "peter";
