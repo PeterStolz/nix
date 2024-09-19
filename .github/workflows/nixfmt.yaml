@@ -16,4 +16,8 @@ jobs:
         nix_path: nixpkgs=channel:nixos-unstable
     - name: Run nixfmt
       run: |
-        nix-shell -p nixfmt-rfc-style --run "nixfmt -c **"
+        shopt -s globstar
+        FILES=$(echo **/*.nix)
+        echo $FILES
+        nix-shell -p nixfmt-rfc-style --run "nixfmt -c $FILES"
+        echo $?

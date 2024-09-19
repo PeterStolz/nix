@@ -64,6 +64,7 @@ in
       dig
       jq
       devbox
+      file
       #(python3.withPackages (pythonPackages: [
       #  pythonPackages.torch
       # pythonPackages.torchvision
