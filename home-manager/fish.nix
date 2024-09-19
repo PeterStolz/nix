@@ -18,6 +18,7 @@
       shellAliases = {
         vim = "nvim";
         hm = "home-manager";
+        k = "kubectl";
       };
       functions = {
         pythonEnv = {

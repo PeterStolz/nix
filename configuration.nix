@@ -11,6 +11,9 @@
     <home-manager/nixos>
     ./home-manager/default.nix
   ];
+  # Allow unfree packages
+  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.cudaSupport = true;
 
   # Bootloader configuration
   boot.loader.grub = {
@@ -25,6 +28,7 @@
     networkmanager.enable = true;
     firewall = {
       enable = true;
+      allowedTCPPorts = [443];
     };
   };
 
@@ -94,11 +98,21 @@
     wget
     git
     nixfmt-rfc-style
-    vimPlugins.gruvbox
+    # nvidia-docker
   ];
 
   # Program configurations
   programs.fish.enable = true;
+  programs.bash = {
+  interactiveShellInit = ''
+    if [[ $(${pkgs.procps}/bin/ps --no-header --pid=$PPID --format=comm) != "fish" && -z ''${BASH_EXECUTION_STRING} ]]
+    then
+      shopt -q login_shell && LOGIN_OPTION='--login' || LOGIN_OPTION=""
+      exec ${pkgs.fish}/bin/fish $LOGIN_OPTION
+    fi
+  '';
+  };
+
   programs.neovim = {
     viAlias = true;
     vimAlias = true;
@@ -139,8 +153,6 @@
     package = config.boot.kernelPackages.nvidiaPackages.production;
   };
 
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
 
   # System version
   system.stateVersion = "24.05";
