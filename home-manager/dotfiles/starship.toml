@@ -62,3 +62,10 @@ disabled = true
 
 [package]
 disabled = true
+
+[aws]
+disabled = true
+
+[nix_shell]
+format = '[$symbol$state]($style) '
+symbol = '❄️'
