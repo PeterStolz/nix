@@ -65,6 +65,7 @@ in
       jq
       devbox
       file
+      opentofu
       #(python3.withPackages (pythonPackages: [
       #  pythonPackages.torch
       # pythonPackages.torchvision

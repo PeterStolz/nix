@@ -6,7 +6,10 @@
   vimAlias = true;
   withNodeJs = true;
   withPython3 = true;
-  plugins = with pkgs.vimPlugins; [ gruvbox ];
+  plugins = with pkgs.vimPlugins; [
+    gruvbox
+    vim-terraform
+  ];
   extraConfig = ''
     set number relativenumber
     set tabstop=2 shiftwidth=2 expandtab

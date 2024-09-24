@@ -11,6 +11,7 @@
     vim = "nvim";
     hm = "home-manager";
     k = "kubectl";
+    tf = "tofu";
   };
   functions = {
     pythonEnv = {
