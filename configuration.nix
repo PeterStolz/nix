@@ -24,7 +24,10 @@
   # Networking
   networking = {
     hostName = "nixos";
-    nameservers = [ "127.0.0.1" "::1" ];
+    nameservers = [
+      "127.0.0.1"
+      "::1"
+    ];
     networkmanager = {
       enable = true;
       dns = "none";
@@ -35,7 +38,6 @@
     };
     resolvconf.useLocalResolver = true;
   };
-
 
   services.dnscrypt-proxy2 = {
     enable = true;
@@ -55,9 +57,7 @@
 
       # You can choose a specific set of servers from https://github.com/DNSCrypt/dnscrypt-resolvers/blob/master/v3/public-resolvers.md
       # TODO troubleshoot why this is (probably) not working. Tcpdump did not query to 1.1.1.1 or 1.0.0.1
-      server_names = [
-        "cloudflare"
-      ];
+      server_names = [ "cloudflare" ];
     };
   };
 

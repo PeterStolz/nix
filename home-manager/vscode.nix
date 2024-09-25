@@ -14,7 +14,7 @@
     ms-python.vscode-pylance
   ];
   userSettings = {
-    "explorer.confirmDragAndDrop"= false;
+    "explorer.confirmDragAndDrop" = false;
     "telemetry.telemetryLevel" = "off";
     "settingsSync.keybindingsPerPlatform" = false;
     "editor.lineNumbers" = "relative";
