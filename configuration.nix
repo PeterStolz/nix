@@ -24,11 +24,45 @@
   # Networking
   networking = {
     hostName = "nixos";
-    networkmanager.enable = true;
+    nameservers = [ "127.0.0.1" "::1" ];
+    networkmanager = {
+      enable = true;
+      dns = "none";
+    };
     firewall = {
       enable = true;
       allowedTCPPorts = [ 443 ];
     };
+    resolvconf.useLocalResolver = true;
+  };
+
+
+  services.dnscrypt-proxy2 = {
+    enable = true;
+    settings = {
+      ipv6_servers = true;
+      require_dnssec = true;
+      forwarding_rules = "/etc/nixos/networking/forwarding-rules.txt";
+
+      sources.public-resolvers = {
+        urls = [
+          "https://raw.githubusercontent.com/DNSCrypt/dnscrypt-resolvers/master/v3/public-resolvers.md"
+          "https://download.dnscrypt.info/resolvers-list/v3/public-resolvers.md"
+        ];
+        cache_file = "/var/lib/dnscrypt-proxy2/public-resolvers.md";
+        minisign_key = "RWQf6LRCGA9i53mlYecO4IzT51TGPpvWucNSCh1CBM0QTaLn73Y7GFO3";
+      };
+
+      # You can choose a specific set of servers from https://github.com/DNSCrypt/dnscrypt-resolvers/blob/master/v3/public-resolvers.md
+      # TODO troubleshoot why this is (probably) not working. Tcpdump did not query to 1.1.1.1 or 1.0.0.1
+      server_names = [
+        "cloudflare"
+      ];
+    };
+  };
+
+  systemd.services.dnscrypt-proxy2.serviceConfig = {
+    StateDirectory = "dnscrypt-proxy";
   };
 
   # Time zone and localization
@@ -98,6 +132,7 @@
     wget
     git
     nixfmt-rfc-style
+    tcpdump
     # nvidia-docker
   ];
 

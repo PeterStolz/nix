@@ -12,6 +12,8 @@
     hm = "home-manager";
     k = "kubectl";
     tf = "tofu";
+    ls = "ls --hyperlink=auto --color=auto";
+    dive = "docker run -ti --rm  -v /var/run/docker.sock:/var/run/docker.sock wagoodman/dive";
   };
   functions = {
     pythonEnv = {
