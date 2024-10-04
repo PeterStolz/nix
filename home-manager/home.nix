@@ -66,6 +66,16 @@ in
       devbox
       file
       opentofu
+      tor-browser
+      ansible
+      k3d
+      linkerd
+      gh
+      kubernetes-helm
+      tilt
+      postgresql_16
+      argocd
+      cmctl
       #(python3.withPackages (pythonPackages: [
       #  pythonPackages.torch
       # pythonPackages.torchvision
