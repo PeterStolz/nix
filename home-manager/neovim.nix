@@ -9,6 +9,10 @@
   plugins = with pkgs.vimPlugins; [
     gruvbox
     vim-terraform
+    coc-nvim  # Optional for other language support, if needed
+    nvim-lspconfig  # Essential for LSP support
+    nvim-cmp  # Optional, for autocompletion
+    cmp-nvim-lsp  # Optional, integrates LSP with nvim-cmp
   ];
   extraConfig = ''
     set number relativenumber
