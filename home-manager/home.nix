@@ -89,6 +89,8 @@ in
       imagemagick
       hadolint
       pre-commit
+      nodejs_20
+      yarn
       (python312.withPackages (p: [
         p.conda
       ]))

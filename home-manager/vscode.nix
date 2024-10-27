@@ -25,10 +25,6 @@
   userSettings = {
     "[python]" = {
       "editor.defaultFormatter" = "ms-python.black-formatter";
-      "editor.formatOnSave" = true;
-      "editor.codeActionsOnSave" = {
-        "source.organizeImports" = "explicit";
-      };
     };
     "black-formatter.args" = [
       "--config"
@@ -50,6 +46,12 @@
     "editor.lineNumbers" = "relative";
     "workbench.iconTheme" = "file-icons";
     "workbench.colorTheme" = "Gruvbox Dark Medium";
+      "editor.formatOnSave" = true;
+    "editor.codeActionsOnSave"= {
+        "source.fixAll.eslint"= "explicit";
+        "source.organizeImports" = "explicit";
+    };
+    "eslint.validate"= ["javascript"];
   };
   # sadly not all vscode-extensions work with vscodium
   #package = pkgs.vscodium;
