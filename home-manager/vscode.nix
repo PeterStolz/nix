@@ -14,9 +14,11 @@
     ms-python.isort
     ms-python.black-formatter
     ms-python.vscode-pylance
+    redhat.vscode-yaml
+    tim-koehler.helm-intellisense
+    ms-kubernetes-tools.vscode-kubernetes-tools
     dbaeumer.vscode-eslint
     redhat.ansible
-    redhat.vscode-yaml
     jdinhlife.gruvbox
     tamasfe.even-better-toml
     file-icons.file-icons
@@ -25,6 +27,9 @@
   userSettings = {
     "[python]" = {
       "editor.defaultFormatter" = "ms-python.black-formatter";
+    };
+    "[yaml]" = {
+      "editor.formatOnSave" = false;
     };
     "black-formatter.args" = [
       "--config"
@@ -41,17 +46,21 @@
       "--ignore=E501,E203"
     ];
     "explorer.confirmDragAndDrop" = false;
+    "redhat.telemetry.enabled"= false;
     "telemetry.telemetryLevel" = "off";
     "settingsSync.keybindingsPerPlatform" = false;
+    "yaml.schemas" = {
+      "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.22.4-standalone-strict/all.json"= [    "**/templates/*.yaml" "**/templates/*.yml"];
+    };
     "editor.lineNumbers" = "relative";
     "workbench.iconTheme" = "file-icons";
     "workbench.colorTheme" = "Gruvbox Dark Medium";
-      "editor.formatOnSave" = true;
-    "editor.codeActionsOnSave"= {
-        "source.fixAll.eslint"= "explicit";
-        "source.organizeImports" = "explicit";
+    "editor.formatOnSave" = true;
+    "editor.codeActionsOnSave" = {
+      "source.fixAll.eslint" = "explicit";
+      "source.organizeImports" = "explicit";
     };
-    "eslint.validate"= ["javascript"];
+    "eslint.validate" = [ "javascript" ];
   };
   # sadly not all vscode-extensions work with vscodium
   #package = pkgs.vscodium;
