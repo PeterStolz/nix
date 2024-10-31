@@ -39,18 +39,17 @@
       "--profile"
       "black"
     ];
-    "pylint.args" = [
-      "--disable=C0116,C0114,C0301"
-    ];
-    "flake8.args" = [
-      "--ignore=E501,E203"
-    ];
+    "pylint.args" = [ "--disable=C0116,C0114,C0301" ];
+    "flake8.args" = [ "--ignore=E501,E203" ];
     "explorer.confirmDragAndDrop" = false;
-    "redhat.telemetry.enabled"= false;
+    "redhat.telemetry.enabled" = false;
     "telemetry.telemetryLevel" = "off";
     "settingsSync.keybindingsPerPlatform" = false;
     "yaml.schemas" = {
-      "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.22.4-standalone-strict/all.json"= [    "**/templates/*.yaml" "**/templates/*.yml"];
+      "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.22.4-standalone-strict/all.json" = [
+        "**/templates/*.yaml"
+        "**/templates/*.yml"
+      ];
     };
     "editor.lineNumbers" = "relative";
     "workbench.iconTheme" = "file-icons";

@@ -39,6 +39,7 @@ in
       };
       extraConfig = {
         user.signingkey = "1D68343249781AD9";
+        gpg.program = "gpg";
         commit.gpgsign = true;
         core.editor = "nvim";
         core.autocrlf = "input";
@@ -65,14 +66,19 @@ in
     stateVersion = "24.05";
 
     packages = with pkgs; [
+      thunderbird-128
+      signal-desktop
+      keepassxc
       nixfmt-rfc-style
       htop
       kubectl
       unzip
       dig
+      pinentry-all
       jq
       devbox
       file
+      gnupg
       opentofu
       tor-browser
       ansible
@@ -91,9 +97,8 @@ in
       pre-commit
       nodejs_20
       yarn
-      (python312.withPackages (p: [
-        p.conda
-      ]))
+      nix-index
+      (python312.withPackages (p: [ p.conda ]))
     ];
 
     file = {

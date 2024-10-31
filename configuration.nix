@@ -56,6 +56,13 @@
 
   services.tailscale.enable = true;
 
+  services.pcscd.enable = true;
+  programs.gnupg.agent = {
+    pinentryPackage = pkgs.pinentry-curses;
+    enable = true;
+    enableSSHSupport = true;
+  };
+
   services.dnscrypt-proxy2 = {
     enable = true;
     settings = {
@@ -142,6 +149,8 @@
 
   # System packages
   environment.systemPackages = with pkgs; [
+    gnupg
+    pinentry-curses
     fish
     home-manager
     python311
