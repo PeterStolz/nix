@@ -49,6 +49,14 @@ in
       };
     };
     yt-dlp.enable = true;
+    chromium = {
+      enable = true;
+      extensions = [
+        { id = "fmkadmapgofadopljbjfkapdkoienihi"; } # react developer tools
+        { id = "cjpalhdlnbpafiamejdnhcphjbkeiagm"; } # uBlockOrigin
+      ];
+      dictionaries = [ pkgs.hunspellDictsChromium.en_US ];
+    };
     #kitty = {
     #  enable = true;
     #  theme = "Birds Of Paradise";

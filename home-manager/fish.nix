@@ -6,6 +6,7 @@
     starship init fish | source
     set fish_greeting # Disable greeting
     set -x CUDA_PATH ${pkgs.cudatoolkit}
+    set -gx GPG_TTY (tty)
   '';
   shellAliases = {
     vim = "nvim";
