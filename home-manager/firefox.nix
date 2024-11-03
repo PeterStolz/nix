@@ -48,14 +48,14 @@ in
           installation_mode = "force_installed";
         };
         # I still don't care about cookies
-        "idcac-pub@guus.ninja"{
+        "idcac-pub@guus.ninja" = {
           install_url = "https://addons.mozilla.org/firefox/downloads/latest/istilldontcareaboutcookies/latest.xpi";
           installation_mode = "force_installed";
-        }
-        "@react-devtools"{
+        };
+        "@react-devtools" = {
           install_url = "https://addons.mozilla.org/firefox/downloads/latest/react-devtools/latest.xpi";
           installation_mode = "force_installed";
-        }
+        };
       };
 
       # ---- PREFERENCES ----

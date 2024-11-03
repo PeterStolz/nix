@@ -46,6 +46,7 @@ in
         init.defaultBranch = "main";
         safe.directory = "/etc/nixos";
         stash.showPatch = true;
+        pull.rebase = true;
       };
     };
     yt-dlp.enable = true;
