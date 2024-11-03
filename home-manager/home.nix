@@ -11,7 +11,7 @@ in
 {
   programs = {
     neovim = import ./neovim.nix { inherit pkgs; };
-    # firefox = import ./firefox.nix { inherit pkgs; };
+    firefox = import ./firefox.nix { inherit pkgs; };
     fish = import ./fish.nix { inherit pkgs; };
     vscode = import ./vscode.nix { inherit pkgs; };
     k9s.enable = true;
@@ -57,16 +57,16 @@ in
       ];
       dictionaries = [ pkgs.hunspellDictsChromium.en_US ];
     };
-    #kitty = {
-    #  enable = true;
-    #  theme = "Birds Of Paradise";
-    #  keybindings = {
-    #    "ctrl+alt+enter" = "launch --cwd=current";
-    #  };
-    #  extraConfig = ''
-    #    background_opacity 0.9
-    #  '';
-    #};
+    kitty = {
+      enable = true;
+      theme = "Birds Of Paradise";
+      keybindings = {
+        "ctrl+alt+enter" = "launch --cwd=current";
+      };
+      extraConfig = ''
+        background_opacity 0.9
+      '';
+    };
   };
   home = {
     username = username;
@@ -81,8 +81,12 @@ in
       htop
       kubectl
       unzip
+      mlocate
       dig
+      libargon2
       pinentry-all
+      hcloud
+      ffmpeg_7
       jq
       devbox
       file

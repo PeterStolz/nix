@@ -7,6 +7,7 @@
     set fish_greeting # Disable greeting
     set -x CUDA_PATH ${pkgs.cudatoolkit}
     set -gx GPG_TTY (tty)
+    set -gx LD_LIBRARY_PATH $NIX_LD_LIBRARY_PATH
   '';
   shellAliases = {
     vim = "nvim";

@@ -174,6 +174,13 @@
     '';
   };
 
+  # https://github.com/mcdonc/.nixconfig/blob/e7885ad18b7980f221e59a21c91b8eb02795b541/videos/pydev/script.rst
+  programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = with pkgs; [
+    stdenv.cc.cc.lib
+    zlib # numpy
+  ];
+
   programs.neovim = {
     viAlias = true;
     vimAlias = true;
