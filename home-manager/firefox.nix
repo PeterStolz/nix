@@ -56,6 +56,11 @@ in
           install_url = "https://addons.mozilla.org/firefox/downloads/latest/react-devtools/latest.xpi";
           installation_mode = "force_installed";
         };
+        # Anon addy
+        "browser-extension@anonaddy" = {
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/addy_io/latest.xpi";
+          installation_mode = "force_installed";
+        };
       };
 
       # ---- PREFERENCES ----
