@@ -89,10 +89,10 @@ in
           graph = "log --all --decorate --oneline --graph";
         };
         extraConfig = {
-          #user.signingkey = "1D68343249781AD9";
+          user.signingkey = "1D68343249781AD9";
           gpg.program = "gpg";
           push.autoSetupRemote = true;
-          #commit.gpgsign = true;
+          commit.gpgsign = true;
           core.editor = "nvim";
           core.autocrlf = "input";
           init.defaultBranch = "main";
@@ -101,6 +101,7 @@ in
           pull.rebase = true;
         };
       };
+
 
       yt-dlp.enable = true;
 
