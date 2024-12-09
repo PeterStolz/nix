@@ -6,29 +6,70 @@
 }:
 
 let
-  username = "peter";
+  username = builtins.getEnv "USER";
+
+  commonPackages = with pkgs; [
+    thunderbird-128
+    keepassxc
+    nixfmt-rfc-style
+    htop
+    kubectl
+    unzip
+    redis
+    mlocate
+    dig
+    libargon2
+    pinentry-all
+    hcloud
+    ffmpeg_7
+    jq
+    devbox
+    file
+    gnupg
+    opentofu
+    tor-browser
+    ansible
+    k3d
+    linkerd
+    gh
+    kubernetes-helm
+    s3cmd
+    tilt
+    postgresql_16
+    argocd
+    cmctl
+    micromamba
+    conda
+    imagemagick
+    hadolint
+    pre-commit
+    nodejs_20
+    yarn
+    nix-index
+    (python312.withPackages (p: [ p.conda ]))
+  ];
+
+  # Packages only available or relevant on Linux
+  linuxOnlyPackages = with pkgs; [
+    # Add packages that won't work on Darwin here
+    # e.g. chromium if it doesn't support Darwin
+  ];
+
 in
 {
+  # Enable Home Manager programs
   programs = {
     neovim = import ./neovim.nix { inherit pkgs; };
-    firefox = import ./firefox.nix { inherit pkgs; };
     fish = import ./fish.nix { inherit pkgs; };
     vscode = import ./vscode.nix { inherit pkgs; };
+    firefox = import ./firefox.nix { inherit pkgs; };
+
     k9s.enable = true;
     starship = {
       enable = true;
-      # Configuration for Starship
       settings = pkgs.lib.importTOML ./dotfiles/starship.toml;
     };
-    #ssh = {
-    #  enable = true;
-    #  matchBlocks = {
-    #    "github.com" = {
-    #      identityFile = "~/.ssh/github_key";
-    #      user = "git";
-    #    };
-    #  };
-    #};
+
     git = {
       enable = true;
       userName = "Peter Stolz";
@@ -40,6 +81,7 @@ in
       extraConfig = {
         user.signingkey = "1D68343249781AD9";
         gpg.program = "gpg";
+        push.autoSetupRemote = true;
         commit.gpgsign = true;
         core.editor = "nvim";
         core.autocrlf = "input";
@@ -49,12 +91,15 @@ in
         pull.rebase = true;
       };
     };
+
     yt-dlp.enable = true;
-    chromium = {
+
+    # Only enable Chromium if not on Darwin
+    chromium = lib.mkIf (!pkgs.stdenv.isDarwin) {
       enable = true;
       extensions = [
-        { id = "fmkadmapgofadopljbjfkapdkoienihi"; } # react developer tools
-        { id = "cjpalhdlnbpafiamejdnhcphjbkeiagm"; } # uBlockOrigin
+        { id = "fmkadmapgofadopljbjfkapdkoienihi"; } # React DevTools
+        { id = "cjpalhdlnbpafiamejdnhcphjbkeiagm"; } # uBlock Origin
       ];
       dictionaries = [ pkgs.hunspellDictsChromium.en_US ];
     };
@@ -69,66 +114,30 @@ in
       '';
     };
   };
+
   home = {
     username = username;
-    homeDirectory = "/home/${username}";
+
+    # Home directory differs between Darwin and Linux
+    homeDirectory = if pkgs.stdenv.isDarwin then "/Users/${username}" else "/home/${username}";
     stateVersion = "24.05";
 
-    packages = with pkgs; [
-      thunderbird-128
-      signal-desktop
-      keepassxc
-      nixfmt-rfc-style
-      htop
-      kubectl
-      unzip
-      mlocate
-      dig
-      libargon2
-      pinentry-all
-      hcloud
-      ffmpeg_7
-      jq
-      devbox
-      file
-      gnupg
-      opentofu
-      tor-browser
-      ansible
-      k3d
-      linkerd
-      gh
-      kubernetes-helm
-      tilt
-      postgresql_16
-      argocd
-      cmctl
-      micromamba
-      conda
-      imagemagick
-      hadolint
-      pre-commit
-      nodejs_20
-      yarn
-      nix-index
-      (python312.withPackages (p: [ p.conda ]))
-    ];
+    # Packages common to both Darwin and Linux
+    packages = commonPackages ++ lib.optionals (!pkgs.stdenv.isDarwin) linuxOnlyPackages;
 
     file = {
-      # Add any file configurations here
+      # Additional file configurations can go here
     };
 
     sessionVariables = {
-      # Add any session variables here
+      # Additional session variables can go here
     };
   };
 
   programs.home-manager.enable = true;
+
   nixpkgs.config = {
     allowUnfree = true;
     cudaSupport = true;
   };
-
-  # This can/cloud help when nix completions don't work properly
-  # xdg.configFile."fish/completions/nix.fish".source = "${pkgs.nix}/share/fish/vendor_completions.d/nix.fish";
 }
