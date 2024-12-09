@@ -1,5 +1,3 @@
-### Installing on MacOS
-
 cd ~
 curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install --no-confirm
 . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh 
@@ -10,3 +8,8 @@ nix-channel --add https://github.com/nix-community/home-manager/archive/release-
 nix-channel --update
 nix-shell '<home-manager>' -A install
 
+
+curl -O https://desktop.docker.com/mac/main/arm64/Docker.dmg
+sudo hdiutil attach Docker.dmg
+sudo /Volumes/Docker/Docker.app/Contents/MacOS/install --accept-license
+sudo hdiutil detach /Volumes/Docker
