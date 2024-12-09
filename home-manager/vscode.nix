@@ -25,6 +25,7 @@
     oderwat.indent-rainbow
   ];
   userSettings = {
+    "javascript.updateImportsOnFileMove.enabled" = "always";
     "[python]" = {
       "editor.defaultFormatter" = "ms-python.black-formatter";
     };
@@ -46,10 +47,11 @@
     "telemetry.telemetryLevel" = "off";
     "settingsSync.keybindingsPerPlatform" = false;
     "yaml.schemas" = {
-      "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.22.4-standalone-strict/all.json" = [
-        "**/templates/*.yaml"
-        "**/templates/*.yml"
-      ];
+      "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.22.4-standalone-strict/all.json" =
+        [
+          "**/templates/*.yaml"
+          "**/templates/*.yml"
+        ];
     };
     "editor.lineNumbers" = "relative";
     "workbench.iconTheme" = "file-icons";

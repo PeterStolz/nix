@@ -5,7 +5,6 @@
   interactiveShellInit = ''
     starship init fish | source
     set fish_greeting # Disable greeting
-    set -x CUDA_PATH ${pkgs.cudatoolkit}
     set -gx GPG_TTY (tty)
     set -gx LD_LIBRARY_PATH $NIX_LD_LIBRARY_PATH
   '';
@@ -14,7 +13,7 @@
     hm = "home-manager";
     k = "kubectl";
     tf = "tofu";
-    ls = "ls --hyperlink=auto --color=auto";
+    ls = "ls --color=auto " + (if !pkgs.stdenv.isDarwin then "--hyperlink=auto " else "");
     dive = "docker run -ti --rm  -v /var/run/docker.sock:/var/run/docker.sock wagoodman/dive";
     ssh = "kitty +kitten ssh";
     s = "kitty +kitten ssh";
