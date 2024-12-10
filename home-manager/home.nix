@@ -9,6 +9,8 @@ let
   username = builtins.getEnv "USER";
 
   commonPackages = with pkgs; [
+    pinentry-tty
+    python312Full
     keepassxc
     nixfmt-rfc-style
     htop
@@ -167,6 +169,7 @@ in
 
     file = {
       # Additional file configurations can go here
+      ".hushlogin".text = "";
     };
 
     sessionVariables = {
