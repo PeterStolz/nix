@@ -9,40 +9,42 @@ let
   username = builtins.getEnv "USER";
 
   commonPackages = with pkgs; [
-    pinentry-tty
-    python312Full
-    keepassxc
-    nixfmt-rfc-style
-    htop
-    kubectl
-    unzip
-    redis
-    dig
-    libargon2
-    hcloud
-    ffmpeg_7
-    jq
-    devbox
-    file
-    gnupg
-    opentofu
     ansible
-    k3d
-    linkerd
-    gh
-    kubernetes-helm
-    s3cmd
-    tilt
-    postgresql_16
     argocd
     cmctl
-    micromamba
-    imagemagick
+    ctlptl
+    devbox
+    dig
+    ffmpeg_7
+    file
+    gh
+    gnupg
     hadolint
-    pre-commit
-    nodejs_20
-    yarn
+    hcloud
+    htop
+    imagemagick
+    jq
+    k3d
+    keepassxc
+    kind
+    kubectl
+    kubernetes-helm
+    libargon2
+    linkerd
+    micromamba
     nix-index
+    nixfmt-rfc-style
+    nodejs_20
+    opentofu
+    pinentry-tty
+    postgresql_16
+    pre-commit
+    python312Full
+    redis
+    s3cmd
+    tilt
+    unzip
+    yarn
   ];
 
   # Packages only available or relevant on Linux
