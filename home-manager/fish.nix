@@ -2,15 +2,21 @@
 
 {
   enable = true;
-  interactiveShellInit = ''
-    starship init fish | source
-    set fish_greeting # Disable greeting
-    set -gx GPG_TTY (tty)
-    set -gx LD_LIBRARY_PATH $NIX_LD_LIBRARY_PATH
-  '' + (if pkgs.stdenv.isDarwin then
+  interactiveShellInit =
     ''
-    fish_add_path /opt/homebrew/bin
-  '' else "");
+      starship init fish | source
+      set fish_greeting # Disable greeting
+      set -gx GPG_TTY (tty)
+      set -gx LD_LIBRARY_PATH $NIX_LD_LIBRARY_PATH
+    ''
+    + (
+      if pkgs.stdenv.isDarwin then
+        ''
+          fish_add_path /opt/homebrew/bin
+        ''
+      else
+        ""
+    );
   shellAliases = {
     vim = "nvim";
     hm = "home-manager";

@@ -25,6 +25,7 @@
     oderwat.indent-rainbow
   ];
   userSettings = {
+    "explorer.confirmDelete" = false;
     "javascript.updateImportsOnFileMove.enabled" = "always";
     "[python]" = {
       "editor.defaultFormatter" = "ms-python.black-formatter";

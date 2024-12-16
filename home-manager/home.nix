@@ -19,6 +19,7 @@ let
     file
     gh
     gnupg
+    graphviz
     hadolint
     hcloud
     htop
@@ -42,6 +43,7 @@ let
     python312Full
     redis
     s3cmd
+    sshfs
     tilt
     unzip
     yarn
@@ -84,28 +86,7 @@ in
         settings = pkgs.lib.importTOML ./dotfiles/starship.toml;
       };
 
-      git = {
-        enable = true;
-        userName = "Peter Stolz";
-        userEmail = "50801264+PeterStolz@users.noreply.github.com";
-        lfs.enable = true;
-        aliases = {
-          graph = "log --all --decorate --oneline --graph";
-        };
-        extraConfig = {
-          user.signingkey = "1D68343249781AD9";
-          gpg.program = "gpg";
-          push.autoSetupRemote = true;
-          commit.gpgsign = true;
-          core.editor = "nvim";
-          core.autocrlf = "input";
-          init.defaultBranch = "main";
-          safe.directory = "/etc/nixos";
-          stash.showPatch = true;
-          pull.rebase = true;
-        };
-      };
-
+      git = import ./git.nix { inherit pkgs; };
       yt-dlp.enable = true;
 
       kitty = {
