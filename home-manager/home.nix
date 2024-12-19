@@ -41,7 +41,9 @@ let
     postgresql_16
     pre-commit
     python312Full
+    rclone
     redis
+    ripgrep-all
     s3cmd
     sshfs
     tilt
