@@ -24,8 +24,7 @@
     tf = "tofu";
     ls = "ls --color=auto " + (if !pkgs.stdenv.isDarwin then "--hyperlink=auto " else "");
     dive = "docker run -ti --rm  -v /var/run/docker.sock:/var/run/docker.sock wagoodman/dive";
-    ssh = "kitty +kitten ssh";
-    s = "kitty +kitten ssh";
+    s = "ssh";
   };
   functions = {
     pythonEnv = {

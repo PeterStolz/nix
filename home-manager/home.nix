@@ -48,6 +48,7 @@ let
     sshfs
     tilt
     unzip
+    wget
     yarn
   ];
 
@@ -56,11 +57,10 @@ let
     # Add packages that won't work on Darwin here
     # e.g. chromium if it doesn't support Darwin
     mlocate
-    thunderbird-128
-    pinentry-all
+    #thunderbird-128
     tor-browser
-    conda
-    (python312.withPackages (p: [ p.conda ]))
+    #conda
+    #(python312.withPackages (p: [ p.conda ]))
   ];
 
 in
@@ -158,7 +158,7 @@ in
     };
 
     sessionVariables = {
-      # Additional session variables can go here
+      PATH = "$HOME/.nix-profile/bin:$PATH";
     };
   };
 

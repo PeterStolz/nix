@@ -25,6 +25,7 @@
     oderwat.indent-rainbow
   ];
   userSettings = {
+    "editor.wrappingColumn" = 0;
     "explorer.confirmDelete" = false;
     "javascript.updateImportsOnFileMove.enabled" = "always";
     "[python]" = {
