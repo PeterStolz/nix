@@ -1,5 +1,11 @@
 #!/bin/bash
 
+cd ~
+mkdir ~/.config
+git clone https://github.com/PeterStolz/nix.git
+ln -s $HOME/nix/home-manager $HOME/.config/home-manager
+
+
 set -ex
 export PATH=$PATH:$HOME/.local/bin
 mkdir -p .local/bin
