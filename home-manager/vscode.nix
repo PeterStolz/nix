@@ -5,24 +5,26 @@
   enableUpdateCheck = false;
   enableExtensionUpdateCheck = false;
   extensions = with pkgs.vscode-extensions; [
-    ms-azuretools.vscode-docker
+    dbaeumer.vscode-eslint
+    file-icons.file-icons
+    github.vscode-github-actions
     hashicorp.terraform
-    vscodevim.vim
+    jdinhlife.gruvbox
     jnoortheen.nix-ide
-    ms-python.python
+    ms-azuretools.vscode-docker
+    ms-kubernetes-tools.vscode-kubernetes-tools
+    ms-python.black-formatter
     ms-python.debugpy
     ms-python.isort
-    ms-python.black-formatter
+    ms-python.python
     ms-python.vscode-pylance
-    redhat.vscode-yaml
-    tim-koehler.helm-intellisense
-    ms-kubernetes-tools.vscode-kubernetes-tools
-    dbaeumer.vscode-eslint
-    redhat.ansible
-    jdinhlife.gruvbox
-    tamasfe.even-better-toml
-    file-icons.file-icons
     oderwat.indent-rainbow
+    redhat.ansible
+    redhat.vscode-yaml
+    tamasfe.even-better-toml
+    tim-koehler.helm-intellisense
+    vscodevim.vim
+
   ];
   userSettings = {
     "editor.wrappingColumn" = 0;

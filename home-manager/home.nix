@@ -11,18 +11,23 @@ let
   commonPackages = with pkgs; [
     ansible
     argocd
+    btop
     cmctl
     ctlptl
     devbox
     dig
+    exiftool
     ffmpeg_7
     file
     gh
+    gnumake
     gnupg
+    go
     graphviz
     hadolint
     hcloud
     htop
+    hyperfine
     imagemagick
     jq
     k3d
@@ -47,7 +52,9 @@ let
     s3cmd
     sshfs
     tilt
+    time
     unzip
+    watch
     wget
     yarn
   ];
