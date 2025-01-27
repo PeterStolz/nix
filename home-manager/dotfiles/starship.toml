@@ -13,9 +13,9 @@ disabled = true
 
 
 [python]
-disabled = true
+disabled = false
 pyenv_version_name = true
-format = '[${symbol}${virtualenv} ]($style)'
+format = '[(${version} )(\($virtualenv\) )]($style)'
 
 [gcloud]
 disabled = true
