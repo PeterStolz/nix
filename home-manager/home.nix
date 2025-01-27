@@ -41,6 +41,7 @@ let
     nix-index
     nixfmt-rfc-style
     nodejs_20
+    opentelemetry-collector-contrib
     opentofu
     pinentry-tty
     postgresql_16
@@ -57,6 +58,7 @@ let
     watch
     wget
     yarn
+    yq
   ];
 
   # Packages only available or relevant on Linux
@@ -79,6 +81,8 @@ in
       zsh = {
         enable = true;
         initExtra = ''
+          export PATH="$HOME/.nix-profile/bin/:$PATH"
+
           if [[ -o interactive ]]; then
             exec fish
           fi
@@ -106,6 +110,7 @@ in
         };
         extraConfig = ''
           background_opacity 0.9
+          cursor                #ffffff
         '';
       };
     }
