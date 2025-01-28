@@ -19,6 +19,7 @@ let
     exiftool
     ffmpeg_7
     file
+    fio
     gh
     gnumake
     gnupg
