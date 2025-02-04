@@ -45,6 +45,7 @@ let
     opentelemetry-collector-contrib
     opentofu
     pinentry-tty
+    poppler_utils
     postgresql_16
     pre-commit
     python312Full

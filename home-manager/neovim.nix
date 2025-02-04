@@ -20,6 +20,7 @@
     syntax enable
 
     autocmd BufRead,BufNewFile Tiltfile set filetype=python
+    autocmd BufNewFile,BufRead Dockerfile* set filetype=dockerfile
 
     set list listchars=eol:$
     colorscheme gruvbox
