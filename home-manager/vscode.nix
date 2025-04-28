@@ -24,7 +24,7 @@
     tamasfe.even-better-toml
     tim-koehler.helm-intellisense
     vscodevim.vim
-
+    christian-kohler.path-intellisense
   ];
   userSettings = {
     "editor.wrappingColumn" = 0;
@@ -66,6 +66,7 @@
       "source.organizeImports" = "explicit";
     };
     "eslint.validate" = [ "javascript" ];
+    "git.openRepositoryInParentFolders" = "always";
   };
   # sadly not all vscode-extensions work with vscodium
   #package = pkgs.vscodium;

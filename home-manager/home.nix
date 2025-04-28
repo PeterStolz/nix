@@ -9,11 +9,12 @@ let
   username = builtins.getEnv "USER";
 
   commonPackages = with pkgs; [
-    ansible
+    # ansible
     argocd
     btop
     cmctl
     ctlptl
+    cyberduck
     devbox
     dig
     exiftool
@@ -21,9 +22,11 @@ let
     file
     fio
     gh
+    ghostscript
     gnumake
     gnupg
     go
+    go-task
     graphviz
     hadolint
     hcloud
@@ -37,8 +40,10 @@ let
     kubectl
     kubernetes-helm
     libargon2
+    libwebp
     linkerd
     micromamba
+    mongosh
     nix-index
     nixfmt-rfc-style
     nodejs_20
@@ -53,9 +58,12 @@ let
     redis
     ripgrep-all
     s3cmd
+    s3fs
     sshfs
+    tflint
     tilt
     time
+    tree
     unzip
     watch
     wget
@@ -111,6 +119,7 @@ in
           "ctrl+alt+enter" = "launch --cwd=current";
         };
         extraConfig = ''
+          scrollback_lines 100000
           background_opacity 0.9
           cursor                #ffffff
         '';

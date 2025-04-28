@@ -8,6 +8,16 @@
       set fish_greeting # Disable greeting
       set -gx GPG_TTY (tty)
       set -gx LD_LIBRARY_PATH $NIX_LD_LIBRARY_PATH
+
+      set -gx INITIAL_USER $USER
+      # make vscode auto-activate environments when they are the project interpreter
+      alias conda micromamba 
+      # >>> mamba initialize >>>
+      # !! Contents within this block are managed by 'mamba init' !!
+      set -gx MAMBA_EXE "/Users/$INITIAL_USER/.nix-profile/bin/micromamba"
+      set -gx MAMBA_ROOT_PREFIX "/Users/$INITIAL_USER/micromamba"
+      $MAMBA_EXE shell hook --shell fish --root-prefix $MAMBA_ROOT_PREFIX | source
+      # <<< mamba initialize <<<
     ''
     + (
       if pkgs.stdenv.isDarwin then
