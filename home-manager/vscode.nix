@@ -67,6 +67,25 @@
     };
     "eslint.validate" = [ "javascript" ];
     "git.openRepositoryInParentFolders" = "always";
+    # opens fish directly and correctly activates python venv, but it too stupid to activate micromamba env
+    "terminal.integrated.defaultProfile.osx" = "fish";
+    "files.exclude" = {
+      "**/data/" = true;
+      "**/dataset/" = true;
+    };
+    # technically not needed, but works way better for remote setups
+    "files.watcherExclude" = {
+      "**" = true;
+    };
+    "files.watcherInclude" = [
+      "src/"
+      "app/"
+      "charts/"
+      "scripts/"
+      "tests/"
+      "source/"
+    ];
+    "search.ripgrep.maxThreads"= 1;
   };
   # sadly not all vscode-extensions work with vscodium
   #package = pkgs.vscodium;
