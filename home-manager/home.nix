@@ -178,9 +178,11 @@ in
     file = {
       # Additional file configurations can go here
       ".hushlogin".text = "";
-      ".condarc" = {
-        source = config.lib.file.mkOutOfStoreSymlink "./dotfiles/condarc";
-      };
+      ".condarc".text = ''
+      channels:
+      - conda-forge
+      changeps1: False
+      '';
     };
 
     sessionVariables = {
