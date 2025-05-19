@@ -8,6 +8,28 @@
   aliases = {
     graph = "log --all --decorate --oneline --graph";
   };
+  delta = {
+    enable = true;
+    options = {
+      line-numbers = true;
+    };
+  };
+  ignores = [
+    "__pycache__"
+    ".pytest_cache"
+    ".DS_Store"
+    ".vscode"
+    ".idea"
+    ".ipynb_checkpoints/"
+    ".coverage"
+    "*.ckpt"
+    "charts"
+    "mlruns"
+    "*.retry"
+    ".terraform/"
+    "*.tfstate"
+    "*.tfstate.*"
+  ];
   extraConfig = {
     user.signingkey = "1D68343249781AD9";
     gpg.program = "gpg";
