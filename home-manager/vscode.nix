@@ -46,6 +46,13 @@
     ];
     "pylint.args" = [ "--disable=C0116,C0114,C0301" ];
     "flake8.args" = [ "--ignore=E501,E203" ];
+    "python.analysis.typeCheckingMode" = "standard";
+    "python.analysis.typeEvaluation.deprecateTypingAliases" = true;
+    "python.analysis.typeEvaluation.disableBytesTypePromotions" = true;
+    "python.analysis.typeEvaluation.enableReachabilityAnalysis" = true;
+    "python.analysis.inlayHints.functionReturnTypes" = true;
+    "python.analysis.inlayHints.callArgumentNames" = "all";
+    "python.analysis.inlayHints.pytestParameters" = true;
     "explorer.confirmDragAndDrop" = false;
     "redhat.telemetry.enabled" = false;
     "telemetry.telemetryLevel" = "off";
@@ -69,23 +76,23 @@
     "git.openRepositoryInParentFolders" = "always";
     # opens fish directly and correctly activates python venv, but it too stupid to activate micromamba env
     "terminal.integrated.defaultProfile.osx" = "fish";
-    "files.exclude" = {
-      "**/data/" = true;
-      "**/dataset/" = true;
-    };
+    #"files.exclude" = {
+    #  "**/data/" = true;
+    #  "**/dataset/" = true;
+    #};
     # technically not needed, but works way better for remote setups
-    "files.watcherExclude" = {
-      "**" = true;
-    };
-    "files.watcherInclude" = [
-      "src/"
-      "app/"
-      "charts/"
-      "scripts/"
-      "tests/"
-      "source/"
-    ];
-    "search.ripgrep.maxThreads"= 1;
+    #"files.watcherExclude" = {
+    #  "**" = true;
+    #};
+    #"files.watcherInclude" = [
+    #  "src/"
+    #  "app/"
+    #  "charts/"
+    #  "scripts/"
+    #  "tests/"
+    #  "source/"
+    #];
+    "search.ripgrep.maxThreads" = 1;
   };
   # sadly not all vscode-extensions work with vscodium
   #package = pkgs.vscodium;
