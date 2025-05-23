@@ -182,6 +182,7 @@ in
       channels:
       - conda-forge
       changeps1: False
+      always_yes: True
       '';
     };
 
