@@ -14,8 +14,20 @@
       alias conda micromamba 
       # >>> mamba initialize >>>
       # !! Contents within this block are managed by 'mamba init' !!
-      set -gx MAMBA_EXE "/Users/$INITIAL_USER/.nix-profile/bin/micromamba"
-      set -gx MAMBA_ROOT_PREFIX "/Users/$INITIAL_USER/micromamba"
+    ''
+    + (
+      if pkgs.stdenv.isDarwin then
+        ''
+          set -gx MAMBA_EXE "/Users/$INITIAL_USER/.nix-profile/bin/micromamba"
+          set -gx MAMBA_ROOT_PREFIX "/Users/$INITIAL_USER/micromamba"
+        ''
+      else
+        ''
+          set -gx MAMBA_EXE "/home/$INITIAL_USER/.nix-profile/bin/micromamba"
+          set -gx MAMBA_ROOT_PREFIX "/home/$INITIAL_USER/micromamba"
+        ''
+    )
+    + ''
       $MAMBA_EXE shell hook --shell fish --root-prefix $MAMBA_ROOT_PREFIX | source
       # <<< mamba initialize <<<
     ''
