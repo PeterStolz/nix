@@ -13,6 +13,7 @@
     nvim-lspconfig # Essential for LSP support
     nvim-cmp # Optional, for autocompletion
     cmp-nvim-lsp # Optional, integrates LSP with nvim-cmp
+    coc-pyright
   ];
   extraConfig = ''
     set number relativenumber

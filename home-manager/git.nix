@@ -30,6 +30,7 @@
     ".terraform/"
     "*.tfstate"
     "*.tfstate.*"
+    "*.parquet"
   ];
   extraConfig = {
     user.signingkey = "1D68343249781AD9";

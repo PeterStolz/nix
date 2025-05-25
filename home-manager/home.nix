@@ -35,7 +35,7 @@ let
     imagemagick
     jq
     k3d
-    keepassxc
+    # keepassxc
     kind
     kubectl
     kubernetes-helm
