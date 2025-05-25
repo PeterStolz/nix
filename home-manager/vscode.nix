@@ -18,6 +18,8 @@
     ms-python.isort
     ms-python.python
     ms-python.vscode-pylance
+    ms-python.flake8
+    matangover.mypy
     oderwat.indent-rainbow
     redhat.ansible
     redhat.vscode-yaml
@@ -27,36 +29,62 @@
     christian-kohler.path-intellisense
   ];
   userSettings = {
+    ##################################
+    ## Generic Editor Configuration ##
+    ##################################
     "editor.wrappingColumn" = 0;
+    "editor.lineNumbers" = "relative";
+    "editor.formatOnSave" = true;
+    "editor.codeActionsOnSave" = {
+      "source.fixAll.eslint" = "explicit";
+      "source.organizeImports" = "explicit";
+    };
     "explorer.confirmDelete" = false;
-    "javascript.updateImportsOnFileMove.enabled" = "always";
-    "[python]" = {
-      "editor.defaultFormatter" = "ms-python.black-formatter";
-    };
-    "[yaml]" = {
-      "editor.formatOnSave" = false;
-    };
-    "black-formatter.args" = [
-      "--config"
-      "\${workspaceFolder}/pyproject.toml"
-    ];
-    "isort.args" = [
-      "--profile"
-      "black"
-    ];
-    "pylint.args" = [ "--disable=C0116,C0114,C0301" ];
-    "flake8.args" = [ "--ignore=E501,E203" ];
-    "python.analysis.typeCheckingMode" = "standard";
-    "python.analysis.typeEvaluation.deprecateTypingAliases" = true;
-    "python.analysis.typeEvaluation.disableBytesTypePromotions" = true;
-    "python.analysis.typeEvaluation.enableReachabilityAnalysis" = true;
-    "python.analysis.inlayHints.functionReturnTypes" = true;
-    "python.analysis.inlayHints.callArgumentNames" = "all";
-    "python.analysis.inlayHints.pytestParameters" = true;
     "explorer.confirmDragAndDrop" = false;
+    "workbench.iconTheme" = "file-icons";
+    "workbench.colorTheme" = "Gruvbox Dark Medium";
     "redhat.telemetry.enabled" = false;
     "telemetry.telemetryLevel" = "off";
     "settingsSync.keybindingsPerPlatform" = false;
+
+    #######################################
+    ## Terminal and File System Settings ##
+    #######################################
+    "terminal.integrated.defaultProfile.osx" = "fish";
+    "search.ripgrep.maxThreads" = 1;
+
+    # (Optional) File and directory exclusions — useful for remote setups
+    # "files.exclude" = {
+    #   "**/data/" = true;
+    #   "**/dataset/" = true;
+    # };
+    # "files.watcherExclude" = {
+    #   "**" = true;
+    # };
+    # "files.watcherInclude" = [
+    #   "src/"
+    #   "app/"
+    #   "charts/"
+    #   "scripts/"
+    #   "tests/"
+    #   "source/"
+    # ];
+
+    ####################
+    ## Tooling Config ##
+    ####################
+
+    "git.openRepositoryInParentFolders" = "always";
+
+    ###########################################
+    ## YAML Configuration and Schema Mapping ##
+    ###########################################
+
+    "[yaml]" = {
+      "editor.formatOnSave" = false;
+    };
+
+    # Associate Kubernetes schema with Helm template files
     "yaml.schemas" = {
       "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.22.4-standalone-strict/all.json" =
         [
@@ -64,35 +92,56 @@
           "**/templates/*.yml"
         ];
     };
-    "editor.lineNumbers" = "relative";
-    "workbench.iconTheme" = "file-icons";
-    "workbench.colorTheme" = "Gruvbox Dark Medium";
-    "editor.formatOnSave" = true;
-    "editor.codeActionsOnSave" = {
-      "source.fixAll.eslint" = "explicit";
-      "source.organizeImports" = "explicit";
-    };
+
+    #######################################
+    ## JavaScript/TypeScript Preferences ##
+    #######################################
+
+    "javascript.updateImportsOnFileMove.enabled" = "always";
     "eslint.validate" = [ "javascript" ];
-    "git.openRepositoryInParentFolders" = "always";
-    # opens fish directly and correctly activates python venv, but it too stupid to activate micromamba env
-    "terminal.integrated.defaultProfile.osx" = "fish";
-    #"files.exclude" = {
-    #  "**/data/" = true;
-    #  "**/dataset/" = true;
-    #};
-    # technically not needed, but works way better for remote setups
-    #"files.watcherExclude" = {
-    #  "**" = true;
-    #};
-    #"files.watcherInclude" = [
-    #  "src/"
-    #  "app/"
-    #  "charts/"
-    #  "scripts/"
-    #  "tests/"
-    #  "source/"
-    #];
-    "search.ripgrep.maxThreads" = 1;
+
+    ################################
+    ##  Python-Specific Settings  ##
+    ################################
+
+    # Set Black as the default formatter for Python
+    "[python]" = {
+      "editor.defaultFormatter" = "ms-python.black-formatter";
+    };
+
+    # Pass custom args to Black formatter (e.g. using pyproject.toml)
+    "black-formatter.args" = [
+      "--config"
+      "\${workspaceFolder}/pyproject.toml"
+    ];
+
+    # Use isort with Black profile
+    "isort.args" = [
+      "--profile"
+      "black"
+    ];
+
+    "pylint.args" = [ "--disable=C0116,C0114,C0301" ];
+
+    "flake8.args" = [ "--ignore=E501,E203,E731,E402" ];
+    "flake8.ignorePatterns" = [
+      "**/site-packages/**/*.py"
+      ".vscode/*.py"
+      ".git"
+      "__pycache__"
+    ];
+
+    "python.analysis.typeCheckingMode" = "standard";
+
+    # Enable strict typing evaluations and hints
+    "python.analysis.typeEvaluation.deprecateTypingAliases" = true;
+    "python.analysis.typeEvaluation.disableBytesTypePromotions" = true;
+    "python.analysis.typeEvaluation.enableReachabilityAnalysis" = true;
+
+    # Enable Python inlay hints for better DX
+    "python.analysis.inlayHints.functionReturnTypes" = true;
+    "python.analysis.inlayHints.callArgumentNames" = "all";
+    "python.analysis.inlayHints.pytestParameters" = true;
   };
   # sadly not all vscode-extensions work with vscodium
   #package = pkgs.vscodium;

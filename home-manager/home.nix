@@ -44,6 +44,7 @@ let
     linkerd
     micromamba
     mongosh
+    nil
     nix-index
     nixfmt-rfc-style
     nodejs_20
@@ -179,10 +180,10 @@ in
       # Additional file configurations can go here
       ".hushlogin".text = "";
       ".condarc".text = ''
-      channels:
-      - conda-forge
-      changeps1: False
-      always_yes: True
+        channels:
+        - conda-forge
+        changeps1: False
+        always_yes: True
       '';
     };
 

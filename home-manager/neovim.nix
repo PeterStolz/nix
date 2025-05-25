@@ -6,6 +6,27 @@
   vimAlias = true;
   withNodeJs = true;
   withPython3 = true;
+  coc = {
+    enable = true;
+    settings = {
+      "languageserver" = {
+        "nix" = {
+          "command" = "nil";
+          "filetypes" = [ "nix" ];
+          "rootPatterns" = [ "flake.nix" ];
+          "settings" = {
+            "nil" = {
+              "formatting" = {
+                "command" = [ "nixfmt" ];
+              };
+            };
+          };
+        };
+      };
+
+    };
+
+  };
   plugins = with pkgs.vimPlugins; [
     gruvbox
     vim-terraform
