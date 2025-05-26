@@ -91,7 +91,7 @@ in
     {
       zsh = {
         enable = true;
-        initExtra = ''
+        initContent = ''
           export PATH="$HOME/.nix-profile/bin/:$PATH"
 
           if [[ -o interactive ]]; then
