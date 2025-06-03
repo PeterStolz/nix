@@ -109,7 +109,7 @@
       # Set Black as the default formatter for Python
       "[python]" = {
         "editor.defaultFormatter" = "ms-python.black-formatter";
-        "editor.formatOnSave"= true;
+        "editor.formatOnSave" = true;
       };
 
       # Pass custom args to Black formatter (e.g. using pyproject.toml)
