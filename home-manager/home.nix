@@ -12,6 +12,7 @@ let
     # ansible
     argocd
     btop
+    cmake
     cmctl
     ctlptl
     cyberduck
@@ -54,7 +55,14 @@ let
     poppler_utils
     postgresql_16
     pre-commit
-    python312Full
+    (python312.withPackages (python-pkgs: [
+      python-pkgs.dvc
+      python-pkgs.dvc-webdav
+      python-pkgs.black
+      python-pkgs.mypy
+      python-pkgs.flake8
+    ])
+    )
     rclone
     redis
     ripgrep-all

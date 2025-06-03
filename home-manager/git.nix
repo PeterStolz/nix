@@ -31,6 +31,7 @@
     "*.tfstate"
     "*.tfstate.*"
     "*.parquet"
+    "node_modules"
   ];
   extraConfig = {
     user.signingkey = "1D68343249781AD9";
