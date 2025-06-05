@@ -9,9 +9,11 @@ let
   username = builtins.getEnv "USER";
 
   commonPackages = with pkgs; [
-    # ansible
+    ansible
+    actionlint
     argocd
     btop
+    checkov
     cmake
     cmctl
     ctlptl
@@ -72,6 +74,7 @@ let
     tilt
     time
     tree
+    trivy
     unzip
     watch
     wget
