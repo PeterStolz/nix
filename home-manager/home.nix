@@ -63,6 +63,7 @@ let
       python-pkgs.black
       python-pkgs.mypy
       python-pkgs.flake8
+      python-pkgs.ruff
     ]))
     rclone
     redis

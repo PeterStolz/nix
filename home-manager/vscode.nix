@@ -29,6 +29,7 @@
       tim-koehler.helm-intellisense
       vscodevim.vim
       christian-kohler.path-intellisense
+      davidanson.vscode-markdownlint
     ];
     userSettings = {
       ##################################
