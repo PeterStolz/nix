@@ -13,7 +13,7 @@ let
     actionlint
     argocd
     btop
-    checkov
+    # checkov # does not build atm due to cuda_cudart-12.8.90 but works in nix-shell
     cmake
     cmctl
     ctlptl
@@ -75,7 +75,7 @@ let
     tilt
     time
     tree
-    trivy
+    # trivy
     unzip
     watch
     wget
