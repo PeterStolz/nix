@@ -57,7 +57,7 @@ let
     pinentry-tty
     poppler_utils
     postgresql_16
-    # pre-commit
+    pre-commit
     (python312.withPackages (python-pkgs: [
       python-pkgs.dvc
       python-pkgs.dvc-webdav
