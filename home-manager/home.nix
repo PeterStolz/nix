@@ -51,12 +51,13 @@ let
     nix-index
     nixfmt-rfc-style
     nodejs_20
+    yarn-berry_4
     opentelemetry-collector-contrib
     opentofu
     pinentry-tty
     poppler_utils
     postgresql_16
-    pre-commit
+    # pre-commit
     (python312.withPackages (python-pkgs: [
       python-pkgs.dvc
       python-pkgs.dvc-webdav
@@ -64,6 +65,7 @@ let
       python-pkgs.mypy
       python-pkgs.flake8
       python-pkgs.ruff
+      python-pkgs.semgrep
     ]))
     rclone
     redis
@@ -79,7 +81,6 @@ let
     unzip
     watch
     wget
-    yarn
     yq
   ];
 

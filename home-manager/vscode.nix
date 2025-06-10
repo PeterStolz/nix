@@ -30,6 +30,7 @@
       vscodevim.vim
       christian-kohler.path-intellisense
       davidanson.vscode-markdownlint
+      charliermarsh.ruff
     ];
     userSettings = {
       ##################################
