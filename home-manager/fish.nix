@@ -51,6 +51,33 @@
     gc = "git commit";
   };
   functions = {
+    rm_small_imgs = {
+      description = "Delete images ≤256 px in either dimension";
+      body = ''
+            # Accept an optional directory argument; default to "."
+            set dir "."
+            if test (count $argv) -ge 1
+                set dir $argv[1]
+            end
+
+            # Find images (case-insensitive) and check their dimensions
+            for img in (find $dir -type f \( -iname "*.webp" -o -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" \))
+                set width  (ffprobe -v error -select_streams v:0 -show_entries stream=width  -of csv=p=0 -- "$img" 2>/dev/null)
+                set height (ffprobe -v error -select_streams v:0 -show_entries stream=height -of csv=p=0 -- "$img" 2>/dev/null)
+
+                # Skip files ffprobe couldn’t parse
+                if test -z "$width" -o -z "$height"
+                    continue
+                end
+
+                if test $width  -le 256 -o $height -le 256
+                    echo "Deleting $img"
+                    rm -- "$img"
+                end
+            end
+      '';
+    };
+
     pythonEnv = {
       body = ''
         if set -q argv[2]

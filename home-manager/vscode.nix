@@ -148,6 +148,7 @@
       "python.analysis.inlayHints.functionReturnTypes" = true;
       "python.analysis.inlayHints.callArgumentNames" = "all";
       "python.analysis.inlayHints.pytestParameters" = true;
+      "anyscalecompute.ray-distributed-debugger.initialized" = true;
     };
     # sadly not all vscode-extensions work with vscodium
     #package = pkgs.vscodium;
