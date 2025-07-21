@@ -21,6 +21,7 @@
       ms-python.python
       ms-python.vscode-pylance
       ms-python.flake8
+      ms-toolsai.jupyter
       ms-vscode-remote.vscode-remote-extensionpack
       matangover.mypy
       oderwat.indent-rainbow
