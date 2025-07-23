@@ -62,8 +62,13 @@
 
             # Find images (case-insensitive) and check their dimensions
             for img in (find $dir -type f \( -iname "*.webp" -o -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" \))
-                set width  (ffprobe -v error -select_streams v:0 -show_entries stream=width  -of csv=p=0 -- "$img" 2>/dev/null)
-                set height (ffprobe -v error -select_streams v:0 -show_entries stream=height -of csv=p=0 -- "$img" 2>/dev/null)
+                set dims (ffprobe -v error -pattern_type none \
+                                     -select_streams v:0 \
+                                     -show_entries stream=width,height \
+                                     -of default=nokey=1:noprint_wrappers=1 \
+                                     -i "$img" 2>/dev/null)
+                set width  $dims[1]
+                set height $dims[2]
 
                 # Skip files ffprobe couldn’t parse
                 if test -z "$width" -o -z "$height"
