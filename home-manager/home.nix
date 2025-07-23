@@ -66,6 +66,7 @@ let
       python-pkgs.flake8
       python-pkgs.ruff
       python-pkgs.semgrep
+      python-pkgs.typer
     ]))
     rclone
     redis
@@ -99,63 +100,62 @@ in
 {
 
   # Enable Home Manager programs
-  programs =
-    {
-      zsh = {
-        enable = true;
-        initContent = ''
-          export PATH="$HOME/.nix-profile/bin/:$PATH"
+  programs = {
+    zsh = {
+      enable = true;
+      initContent = ''
+        export PATH="$HOME/.nix-profile/bin/:$PATH"
 
-          if [[ -o interactive ]]; then
-            exec fish
-          fi
-        '';
+        if [[ -o interactive ]]; then
+          exec fish
+        fi
+      '';
+    };
+    home-manager.enable = true;
+    neovim = import ./neovim.nix { inherit pkgs; };
+    fish = import ./fish.nix { inherit pkgs; };
+    vscode = import ./vscode.nix { inherit pkgs; };
+
+    k9s.enable = true;
+    starship = {
+      enable = true;
+      settings = pkgs.lib.importTOML ./dotfiles/starship.toml;
+    };
+
+    git = import ./git.nix { inherit pkgs; };
+    yt-dlp.enable = true;
+
+    kitty = {
+      enable = true;
+      themeFile = "BirdsOfParadise";
+      keybindings = {
+        "ctrl+alt+enter" = "launch --cwd=current";
       };
-      home-manager.enable = true;
-      neovim = import ./neovim.nix { inherit pkgs; };
-      fish = import ./fish.nix { inherit pkgs; };
-      vscode = import ./vscode.nix { inherit pkgs; };
-
-      k9s.enable = true;
-      starship = {
-        enable = true;
-        settings = pkgs.lib.importTOML ./dotfiles/starship.toml;
-      };
-
-      git = import ./git.nix { inherit pkgs; };
-      yt-dlp.enable = true;
-
-      kitty = {
-        enable = true;
-        themeFile = "BirdsOfParadise";
-        keybindings = {
-          "ctrl+alt+enter" = "launch --cwd=current";
+      extraConfig = ''
+        scrollback_lines 100000
+        background_opacity 0.9
+        cursor                #ffffff
+      '';
+    };
+  }
+  // (
+    if !pkgs.stdenv.isDarwin then
+      {
+        chromium = {
+          enable = true;
+          extensions = [
+            { id = "fmkadmapgofadopljbjfkapdkoienihi"; } # React DevTools
+            { id = "cjpalhdlnbpafiamejdnhcphjbkeiagm"; } # uBlock Origin
+          ];
+          dictionaries = [ pkgs.hunspellDictsChromium.en_US ];
         };
-        extraConfig = ''
-          scrollback_lines 100000
-          background_opacity 0.9
-          cursor                #ffffff
-        '';
-      };
-    }
-    // (
-      if !pkgs.stdenv.isDarwin then
-        {
-          chromium = {
-            enable = true;
-            extensions = [
-              { id = "fmkadmapgofadopljbjfkapdkoienihi"; } # React DevTools
-              { id = "cjpalhdlnbpafiamejdnhcphjbkeiagm"; } # uBlock Origin
-            ];
-            dictionaries = [ pkgs.hunspellDictsChromium.en_US ];
-          };
 
-          firefox = import ./firefox.nix { inherit pkgs; };
+        firefox = import ./firefox.nix { inherit pkgs; };
 
-        }
-      else
-        { }
-    );
+      }
+    else
+      { }
+  );
 
   home = {
 
