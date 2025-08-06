@@ -17,7 +17,6 @@ let
     cmake
     cmctl
     ctlptl
-    cyberduck
     devbox
     dig
     exiftool
@@ -96,6 +95,9 @@ let
     tor-browser
     #conda
     #(python312.withPackages (p: [ p.conda ]))
+  ];
+  darwinOnlyPackages = with pkgs; [
+    cyberduck
   ];
 
 in
@@ -188,7 +190,7 @@ in
     stateVersion = "24.05";
 
     # Packages common to both Darwin and Linux
-    packages = commonPackages ++ lib.optionals (!pkgs.stdenv.isDarwin) linuxOnlyPackages;
+    packages = commonPackages ++ lib.optionals (!pkgs.stdenv.isDarwin) linuxOnlyPackages ++ lib.optionals (pkgs.stdenv.isDarwin) darwinOnlyPackages;
 
     file = {
       # Additional file configurations can go here
