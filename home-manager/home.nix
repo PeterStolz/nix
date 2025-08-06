@@ -61,6 +61,7 @@ let
     (python312.withPackages (python-pkgs: [
       python-pkgs.dvc
       python-pkgs.dvc-webdav
+      python-pkgs.dvc-s3
       python-pkgs.black
       python-pkgs.mypy
       python-pkgs.flake8
@@ -74,6 +75,7 @@ let
     s3cmd
     s3fs
     sshfs
+    talosctl
     tflint
     tilt
     time
