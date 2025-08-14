@@ -75,6 +75,8 @@ let
     s3fs
     sshfs
     talosctl
+    terraform
+    terraform-ls
     tflint
     tilt
     time

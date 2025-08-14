@@ -48,7 +48,9 @@
     s = "ssh";
     gs = "git status";
     gc = "git commit";
-  };
+  } // (if pkgs.stdenv.isDarwin then {
+    tailscale = "/Applications/Tailscale.app/Contents/MacOS/Tailscale";
+  } else {});
   functions = {
     rm_small_imgs = {
       description = "Delete images ≤256 px in either dimension";
