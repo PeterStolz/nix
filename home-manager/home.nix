@@ -19,6 +19,7 @@ let
     ctlptl
     devbox
     dig
+    duckdb
     exiftool
     ffmpeg_7
     file
@@ -35,12 +36,14 @@ let
     htop
     hyperfine
     imagemagick
+    iperf
     jq
     k3d
     # keepassxc
     kind
     kubectl
     kubernetes-helm
+    kustomize
     libargon2
     libwebp
     linkerd
@@ -68,6 +71,7 @@ let
       python-pkgs.semgrep
       python-pkgs.typer
     ]))
+    pqrs
     rclone
     redis
     ripgrep-all
@@ -75,6 +79,7 @@ let
     s3fs
     sshfs
     talosctl
+    teleport
     terraform
     terraform-ls
     tflint
