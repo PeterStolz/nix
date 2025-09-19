@@ -90,7 +90,7 @@ let
     unzip
     watch
     wget
-    yq
+    yq-go
   ];
 
   # Packages only available or relevant on Linux
