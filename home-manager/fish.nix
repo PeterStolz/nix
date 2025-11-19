@@ -8,6 +8,8 @@
     set -gx GPG_TTY (tty)
     set -gx LD_LIBRARY_PATH $NIX_LD_LIBRARY_PATH
 
+    fish_add_path ~/.cargo/bin
+
     set -gx INITIAL_USER $USER
     # make vscode auto-activate environments when they are the project interpreter
     alias conda micromamba 
@@ -17,7 +19,8 @@
   + (
     if pkgs.stdenv.isDarwin then
       ''
-        set -gx MAMBA_EXE "/Users/$INITIAL_USER/.nix-profile/bin/micromamba"
+        # set -gx MAMBA_EXE "/Users/$INITIAL_USER/.nix-profile/bin/micromamba"
+        set -gx MAMBA_EXE "/opt/homebrew/bin/micromamba"
         set -gx MAMBA_ROOT_PREFIX "/Users/$INITIAL_USER/micromamba"
       ''
     else

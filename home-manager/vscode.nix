@@ -112,8 +112,7 @@
 
       # Set Black as the default formatter for Python
       "[python]" = {
-        "editor.defaultFormatter" = "ms-python.black-formatter";
-        "editor.formatOnSave" = true;
+        "editor.defaultFormatter" = "charliermarsh.ruff";
       };
 
       # Pass custom args to Black formatter (e.g. using pyproject.toml)

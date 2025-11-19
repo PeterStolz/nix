@@ -14,6 +14,7 @@ let
     argocd
     btop
     # checkov # does not build atm due to cuda_cudart-12.8.90 but works in nix-shell
+    cargo
     cmake
     cmctl
     ctlptl
@@ -23,7 +24,6 @@ let
     exiftool
     ffmpeg_7
     file
-    fio
     gh
     ghostscript
     gnumake
@@ -39,6 +39,7 @@ let
     iperf
     jq
     k3d
+    keepassxc
     # keepassxc
     kind
     kubectl
@@ -47,7 +48,7 @@ let
     libargon2
     libwebp
     linkerd
-    micromamba
+    # micromamba # alledgedly the same as mamba now https://github.com/NixOS/nixpkgs/pull/460788 but broken for now
     mongosh
     nil
     nix-index
@@ -57,7 +58,7 @@ let
     opentelemetry-collector-contrib
     opentofu
     pinentry-tty
-    poppler_utils
+    poppler-utils
     postgresql_16
     pre-commit
     (python312.withPackages (python-pkgs: [
@@ -100,6 +101,7 @@ let
     mlocate
     #thunderbird-128
     tor-browser
+    fio
     #conda
     #(python312.withPackages (p: [ p.conda ]))
   ];
@@ -217,6 +219,6 @@ in
 
   nixpkgs.config = {
     allowUnfree = true;
-    cudaSupport = true;
+    cudaSupport = false;
   };
 }
