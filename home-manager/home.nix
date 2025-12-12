@@ -30,6 +30,7 @@ let
     gnupg
     go
     go-task
+    google-cloud-sdk
     graphviz
     hadolint
     hcloud
@@ -45,6 +46,7 @@ let
     kubectl
     kubernetes-helm
     kustomize
+    lakectl
     libargon2
     libwebp
     linkerd
@@ -54,6 +56,7 @@ let
     nix-index
     nixfmt-rfc-style
     nodejs_20
+    nmap
     yarn-berry_4
     opentelemetry-collector-contrib
     opentofu
@@ -89,6 +92,7 @@ let
     tree
     # trivy
     unzip
+    uv
     watch
     wget
     yq-go
@@ -114,6 +118,14 @@ in
 
   # Enable Home Manager programs
   programs = {
+    delta = {
+      enable = true;
+      enableGitIntegration = true;
+      options = {
+        line-numbers = true;
+        side-by-side = true;
+      };
+    };
     zsh = {
       enable = true;
       initContent = ''
@@ -199,7 +211,10 @@ in
     stateVersion = "24.05";
 
     # Packages common to both Darwin and Linux
-    packages = commonPackages ++ lib.optionals (!pkgs.stdenv.isDarwin) linuxOnlyPackages ++ lib.optionals (pkgs.stdenv.isDarwin) darwinOnlyPackages;
+    packages =
+      commonPackages
+      ++ lib.optionals (!pkgs.stdenv.isDarwin) linuxOnlyPackages
+      ++ lib.optionals (pkgs.stdenv.isDarwin) darwinOnlyPackages;
 
     file = {
       # Additional file configurations can go here
