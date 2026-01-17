@@ -41,7 +41,6 @@ let
     jq
     k3d
     keepassxc
-    # keepassxc
     kind
     kubectl
     kubernetes-helm
@@ -50,11 +49,11 @@ let
     libargon2
     libwebp
     linkerd
-    # micromamba # alledgedly the same as mamba now https://github.com/NixOS/nixpkgs/pull/460788 but broken for now
+    micromamba # alledgedly the same as mamba now https://github.com/NixOS/nixpkgs/pull/460788 but broken for now
     mongosh
     nil
     nix-index
-    nixfmt-rfc-style
+    nixfmt
     nodejs_20
     nmap
     yarn-berry_4
@@ -65,22 +64,21 @@ let
     postgresql_16
     pre-commit
     (python312.withPackages (python-pkgs: [
-      python-pkgs.dvc
-      python-pkgs.dvc-webdav
-      python-pkgs.dvc-s3
-      python-pkgs.black
-      python-pkgs.mypy
-      python-pkgs.flake8
-      python-pkgs.ruff
-      python-pkgs.semgrep
-      python-pkgs.typer
+      # python-pkgs.dvc
+      # python-pkgs.dvc-s3
+      # python-pkgs.black
+      # python-pkgs.mypy
+      # python-pkgs.flake8
+      # python-pkgs.ruff
+      # python-pkgs.semgrep
+      # python-pkgs.typer
     ]))
     pqrs
     rclone
     redis
     ripgrep-all
     s3cmd
-    s3fs
+    # s3fs
     sshfs
     talosctl
     teleport
@@ -134,6 +132,21 @@ in
         if [[ -o interactive ]]; then
           exec fish
         fi
+      '';
+    };
+    bash = {
+      enable = true;
+
+      # This is appended to ~/.bashrc (interactive shells)
+      initExtra = ''
+        export PATH="$HOME/.nix-profile/bin/:$PATH"
+
+        # Only for interactive shells
+        case $- in
+          *i*)
+            exec fish
+            ;;
+        esac
       '';
     };
     home-manager.enable = true;
