@@ -9,6 +9,8 @@
     set -gx LD_LIBRARY_PATH $NIX_LD_LIBRARY_PATH
 
     fish_add_path ~/.cargo/bin
+    fish_add_path ~/.opencode/bin
+    fish_add_path ~/.local/bin
 
     set -gx INITIAL_USER $USER
     # make vscode auto-activate environments when they are the project interpreter
