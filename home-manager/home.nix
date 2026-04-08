@@ -11,7 +11,7 @@ let
   commonPackages = with pkgs; [
     ansible
     actionlint
-    argocd
+    # argocd
     btop
     # checkov # does not build atm due to cuda_cudart-12.8.90 but works in nix-shell
     cargo
@@ -59,6 +59,7 @@ let
     yarn-berry_4
     opentelemetry-collector-contrib
     opentofu
+    tofu-ls
     pinentry-tty
     poppler-utils
     postgresql_16
@@ -237,6 +238,9 @@ in
         - conda-forge
         changeps1: False
         always_yes: True
+      '';
+      ".npmrc".text = ''                               
+        prefix=${config.home.homeDirectory}/.local/lib 
       '';
     };
 
