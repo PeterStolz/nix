@@ -26,6 +26,7 @@ let
     file
     gh
     ghostscript
+    gitleaks
     gnumake
     gnupg
     go
@@ -77,6 +78,7 @@ let
     pqrs
     rclone
     redis
+    ripgrep
     ripgrep-all
     s3cmd
     # s3fs
