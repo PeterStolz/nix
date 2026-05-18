@@ -134,7 +134,9 @@ in
         export PATH="$HOME/.nix-profile/bin/:$PATH"
 
         if [[ -o interactive ]]; then
-          exec fish
+          if [ -z "$INTELLIJ_ENVIRONMENT_READER" ]; then
+            exec fish
+          fi
         fi
       '';
     };
@@ -242,7 +244,7 @@ in
         changeps1: False
         always_yes: True
       '';
-      ".npmrc".text = ''                               
+      ".npmrc".text = ''
         prefix=${config.home.homeDirectory}/.local/lib 
       '';
     };
