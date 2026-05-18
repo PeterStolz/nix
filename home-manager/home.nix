@@ -133,7 +133,9 @@ in
         export PATH="$HOME/.nix-profile/bin/:$PATH"
 
         if [[ -o interactive ]]; then
-          exec fish
+          if [ -z "$INTELLIJ_ENVIRONMENT_READER" ]; then
+            exec fish
+          fi
         fi
       '';
     };
