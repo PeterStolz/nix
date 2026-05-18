@@ -55,7 +55,7 @@ let
     nil
     nix-index
     nixfmt
-    nodejs_20
+    nodejs_24
     nmap
     yarn-berry_4
     opentelemetry-collector-contrib
@@ -65,6 +65,7 @@ let
     poppler-utils
     postgresql_16
     pre-commit
+    pnpm
     (python312.withPackages (python-pkgs: [
       # python-pkgs.dvc
       # python-pkgs.dvc-s3
