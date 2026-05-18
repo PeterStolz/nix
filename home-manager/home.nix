@@ -244,7 +244,7 @@ in
         changeps1: False
         always_yes: True
       '';
-      ".npmrc".text = ''                               
+      ".npmrc".text = ''
         prefix=${config.home.homeDirectory}/.local/lib 
       '';
     };
