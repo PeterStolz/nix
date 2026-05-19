@@ -245,7 +245,17 @@ in
         always_yes: True
       '';
       ".npmrc".text = ''
-        prefix=${config.home.homeDirectory}/.local/lib 
+        prefix=${config.home.homeDirectory}/.local/lib
+
+        # Supply-chain hardening (pnpm 10+): refuse anything published <7 days ago.
+        # https://pnpm.io/settings#minimum-release-age
+        minimum-release-age=10080
+        strict-peer-dependencies=true
+      '';
+      ".config/uv/uv.toml".text = ''
+        # Supply-chain hardening: ignore packages published in the last 7 days.
+        # https://docs.astral.sh/uv/reference/settings/#exclude-newer
+        exclude-newer = "7 days"
       '';
     };
 
