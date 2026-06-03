@@ -82,6 +82,8 @@ let
     ripgrep
     ripgrep-all
     s3cmd
+    step-cli
+    shellcheck
     # s3fs
     sshfs
     talosctl
