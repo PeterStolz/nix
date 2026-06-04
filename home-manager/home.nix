@@ -12,6 +12,7 @@ let
     ansible
     actionlint
     # argocd
+    bitwarden-cli
     btop
     # checkov # does not build atm due to cuda_cudart-12.8.90 but works in nix-shell
     cargo
