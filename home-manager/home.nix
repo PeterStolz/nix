@@ -299,7 +299,9 @@ in
     # SSH. Keep linkApps -- the `link-apps` activation above already makes the apps
     # Spotlight-visible via mkalias, and it reads `home-files/Applications`, which
     # only exists while linkApps is enabled.
-    targets.darwin = {
+    # mkIf, not a bare attrset: the module asserts on non-darwin platforms, so
+    # setting linkApps.enable at all breaks eval on Linux.
+    targets.darwin = lib.mkIf pkgs.stdenv.isDarwin {
       copyApps.enable = false;
       linkApps.enable = true;
     };
