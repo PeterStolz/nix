@@ -1,7 +1,21 @@
-{ ... }:
+{ config, lib, ... }:
 
 {
-  programs.git = {
+  options.local.signCommits = lib.mkOption {
+    type = lib.types.bool;
+    default = builtins.getEnv "HM_NO_SIGN" != "1";
+    description = ''
+      Set HM_NO_SIGN=1 on boxes that have no secret GPG key (agent VMs, throwaway
+      servers) to stop git from signing. With signing on and no key, every commit
+      fails outright, so this has to be off there rather than merely best-effort.
+
+      Read with builtins.getEnv, so — like HM_HEADLESS — it must be in the
+      environment of *every* `home-manager switch`, not just the first. Put it in
+      /etc/environment; home-manager owns ~/.bashrc.
+    '';
+  };
+
+  config.programs.git = {
     enable = true;
     lfs.enable = true;
     settings = {
@@ -10,7 +24,7 @@
       user.signingkey = "1D68343249781AD9";
       gpg.program = "gpg";
       push.autoSetupRemote = true;
-      commit.gpgsign = true;
+      commit.gpgsign = config.local.signCommits;
       core.editor = "nvim";
       core.autocrlf = "input";
       init.defaultBranch = "main";

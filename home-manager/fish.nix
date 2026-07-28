@@ -42,9 +42,16 @@ in
       end
       # <<< mamba initialize <<<
     ''
-    + lib.optionalString pkgs.stdenv.isDarwin ''
-      fish_add_path /opt/homebrew/bin
-    '';
+    + (
+      if pkgs.stdenv.isDarwin then
+        ''
+          fish_add_path /opt/homebrew/bin
+        ''
+      else
+        ''
+          fish_add_path /home/linuxbrew/.linuxbrew/bin
+        ''
+    );
 
     shellAliases = {
       vim = "nvim";

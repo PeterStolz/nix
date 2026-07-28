@@ -52,6 +52,7 @@ let
     libwebp
     linkerd
     micromamba # alledgedly the same as mamba now https://github.com/NixOS/nixpkgs/pull/460788 but broken for now
+    minikube
     mongosh
     nil
     nix-index
@@ -66,16 +67,9 @@ let
     postgresql_16
     pqrs
     pre-commit
-    (python312.withPackages (python-pkgs: [
-      # python-pkgs.dvc
-      # python-pkgs.dvc-s3
-      # python-pkgs.black
-      # python-pkgs.mypy
-      # python-pkgs.flake8
-      # python-pkgs.ruff
-      # python-pkgs.semgrep
-      # python-pkgs.typer
-    ]))
+    # Bare on purpose: withPackages builds from source on darwin, and uv covers
+    # per-project environments anyway.
+    python312
     rclone
     redis
     ripgrep
@@ -94,7 +88,7 @@ let
     time
     tofu-ls
     tree
-    # trivy
+    trivy
     unzip
     uv
     watch
@@ -110,6 +104,8 @@ let
     mlocate
     #thunderbird-128
     fio
+    # Linux-only in nixpkgs (meta.platforms), so it cannot live in commonPackages.
+    singularity
     #conda
     #(python312.withPackages (p: [ p.conda ]))
   ];
@@ -175,6 +171,18 @@ in
       };
       bash = {
         enable = true;
+
+        # Lands at the top of ~/.bashrc, above the `[[ $- == *i* ]] || return`
+        # guard -- unlike initExtra, which lands below it. `ssh host <cmd>` is
+        # neither interactive nor a login shell, so ~/.profile never runs and
+        # sessionPath/sessionVariables would be invisible to it. Bash does read
+        # ~/.bashrc there (stdin is a socket). The file self-guards against
+        # double-sourcing and prints nothing, so scp/sftp stay safe.
+        bashrcExtra = ''
+          if [ -f "${config.home.profileDirectory}/etc/profile.d/hm-session-vars.sh" ]; then
+            . "${config.home.profileDirectory}/etc/profile.d/hm-session-vars.sh"
+          fi
+        '';
 
         # This is appended to ~/.bashrc (interactive shells)
         initExtra = ''
@@ -289,10 +297,15 @@ in
         '';
       };
 
-      # Rendered into hm-session-vars for every shell. The nix installer already
-      # does this from /etc/zshrc on darwin, but that is zsh-only and host
-      # specific -- fish as a login shell, or bash over ssh on Linux, would not
-      # otherwise see the profile.
+      # Both render into hm-session-vars: sourced by fish itself, by ~/.profile
+      # for login shells, and by bashrcExtra above for `ssh host <cmd>`. The nix
+      # installer covers .nix-profile/bin but knows nothing about ~/.local/bin,
+      # where npm/pnpm (see .npmrc) and self-installers like claude land.
+      sessionVariables = {
+        # Disable T3 Code's PostHog product telemetry.
+        T3CODE_TELEMETRY_ENABLED = "false";
+      };
+
       sessionPath = [
         "$HOME/.local/bin"
         "$HOME/.nix-profile/bin"

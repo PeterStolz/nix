@@ -60,18 +60,25 @@ above; only worth it when there is genuinely no sudo.
 `configuration.nix` imports `<home-manager/nixos>`, so the system rebuild applies
 the user environment too — no separate `home-manager switch`.
 
-## Headless machines
+## Per-machine switches
 
-Set `HM_HEADLESS=1` to skip everything that needs a display (browsers, vscode,
-kitty, tor-browser) via the `local.headless` option:
+Two escape hatches, both read from the environment at eval time:
+
+| Variable | Option | Effect |
+| --- | --- | --- |
+| `HM_HEADLESS=1` | `local.headless` | Skip everything needing a display — browsers, vscode, kitty, tor-browser. |
+| `HM_NO_SIGN=1` | `local.signCommits` | Turn off `commit.gpgsign`, for boxes with no secret GPG key. Without it every commit there fails outright. |
 
 ```sh
-echo "HM_HEADLESS=1" | sudo tee -a /etc/environment
+printf 'HM_HEADLESS=1\nHM_NO_SIGN=1\n' | sudo tee -a /etc/environment
 ```
 
 `/etc/environment` rather than a shell rc file, because home-manager owns
-`~/.bashrc`. It is read with `builtins.getEnv`, so it must be in the environment
-for *every* `home-manager switch`, not just the first.
+`~/.bashrc`. They are read with `builtins.getEnv`, so they must be in the
+environment for *every* `home-manager switch`, not just the first.
+
+Use these instead of editing a machine's checkout — that is the drift the
+Updating section warns about.
 
 ## Updating
 
