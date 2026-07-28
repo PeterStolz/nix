@@ -181,32 +181,10 @@
     zlib # numpy
   ];
 
-  programs.neovim = {
-    viAlias = true;
-    vimAlias = true;
-    enable = true;
-    defaultEditor = true;
-    withNodeJs = true;
-    withPython3 = true;
-    configure = {
-      customRC = ''
-        set number relativenumber
-        set tabstop=2 shiftwidth=2 expandtab
-        syntax enable
-
-        autocmd BufRead,BufNewFile Tiltfile set filetype=python
-
-        set list listchars=eol:$
-        colorscheme gruvbox
-      '';
-      packages.myVimPackage = with pkgs.vimPlugins; {
-        # loaded on launch
-        start = [ gruvbox ];
-        # manually loadable by calling `:packadd $plugin-name`
-        opt = [ ];
-      };
-    };
-  };
+  # neovim is configured once, in home-manager/neovim.nix. The home-manager
+  # profile shadows environment.systemPackages on PATH anyway, so a second
+  # system-level neovim (with its own node + python3 providers) was built and
+  # downloaded but never actually run.
 
   # Nvidia configuration
   hardware.opengl.enable = true;

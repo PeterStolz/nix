@@ -1,50 +1,53 @@
 { pkgs, ... }:
 
 {
-  enable = true;
-  viAlias = true;
-  vimAlias = true;
-  withNodeJs = true;
-  withPython3 = true;
-  coc = {
+  programs.neovim = {
     enable = true;
-    settings = {
-      "languageserver" = {
-        "nix" = {
-          "command" = "nil";
-          "filetypes" = [ "nix" ];
-          "rootPatterns" = [ "flake.nix" ];
-          "settings" = {
-            "nil" = {
-              "formatting" = {
-                "command" = [ "nixfmt" ];
+    defaultEditor = true;
+    viAlias = true;
+    vimAlias = true;
+    withNodeJs = true;
+    withPython3 = true;
+    # New default as of 26.05; no ruby plugins here, so adopt it and drop the provider.
+    withRuby = false;
+    coc = {
+      enable = true;
+      settings = {
+        "languageserver" = {
+          "nix" = {
+            "command" = "nil";
+            "filetypes" = [ "nix" ];
+            "rootPatterns" = [ "flake.nix" ];
+            "settings" = {
+              "nil" = {
+                "formatting" = {
+                  "command" = [ "nixfmt" ];
+                };
               };
             };
           };
         };
       };
-
     };
+    # coc is the only completion/LSP stack that is actually configured here.
+    # nvim-lspconfig / nvim-cmp / cmp-nvim-lsp used to be listed too, but nothing
+    # ever called their setup(), so they were loaded and inert.
+    plugins = with pkgs.vimPlugins; [
+      coc-nvim
+      coc-pyright
+      gruvbox
+      vim-terraform
+    ];
+    extraConfig = ''
+      set number relativenumber
+      set tabstop=2 shiftwidth=2 expandtab
+      syntax enable
 
+      autocmd BufRead,BufNewFile Tiltfile set filetype=python
+      autocmd BufNewFile,BufRead Dockerfile* set filetype=dockerfile
+
+      set list listchars=eol:$
+      colorscheme gruvbox
+    '';
   };
-  plugins = with pkgs.vimPlugins; [
-    gruvbox
-    vim-terraform
-    coc-nvim # Optional for other language support, if needed
-    nvim-lspconfig # Essential for LSP support
-    nvim-cmp # Optional, for autocompletion
-    cmp-nvim-lsp # Optional, integrates LSP with nvim-cmp
-    coc-pyright
-  ];
-  extraConfig = ''
-    set number relativenumber
-    set tabstop=2 shiftwidth=2 expandtab
-    syntax enable
-
-    autocmd BufRead,BufNewFile Tiltfile set filetype=python
-    autocmd BufNewFile,BufRead Dockerfile* set filetype=dockerfile
-
-    set list listchars=eol:$
-    colorscheme gruvbox
-  '';
 }

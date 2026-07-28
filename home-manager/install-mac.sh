@@ -4,7 +4,12 @@ curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix 
 nix-shell -p git --command "git clone https://github.com/PeterStolz/nix.git"
 mkdir .config
 ln -s $PWD/nix/home-manager $PWD/.config/home-manager
-nix-channel --add https://github.com/nix-community/home-manager/archive/release-25.05.tar.gz home-manager
+# home-manager and nixpkgs must be on the SAME release. The Determinate installer
+# resolves <nixpkgs> via the flake registry (extra-nix-path = nixpkgs=flake:nixpkgs),
+# so bumping only the channel leaves nixpkgs behind and eval fails on missing lib
+# paths (e.g. lib/services/lib.nix).
+nix registry add nixpkgs github:NixOS/nixpkgs/nixpkgs-26.05-darwin
+nix-channel --add https://github.com/nix-community/home-manager/archive/release-26.05.tar.gz home-manager
 nix-channel --update
 nix-shell '<home-manager>' -A install
 
