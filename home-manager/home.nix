@@ -162,9 +162,11 @@ in
         enable = true;
         # Run this BEFORE home-manager's compinit/starship/kitty init (mkBefore =>
         # order 500, ahead of compinit at 550). For interactive sessions we exec
-        # straight into fish, so none of that zsh setup work is wasted.
+        # straight into fish, so none of that zsh setup work is wasted. Preserve
+        # commands passed with `zsh -c` so environment readers can inspect the
+        # configured login environment instead of losing their command to fish.
         initContent = lib.mkBefore ''
-          if [[ -o interactive ]]; then
+          if [[ -o interactive && -z "$ZSH_EXECUTION_STRING" ]]; then
             if [ -z "$INTELLIJ_ENVIRONMENT_READER" ]; then
               exec ${fishExe}
             fi
@@ -291,7 +293,10 @@ in
       # does this from /etc/zshrc on darwin, but that is zsh-only and host
       # specific -- fish as a login shell, or bash over ssh on Linux, would not
       # otherwise see the profile.
-      sessionPath = [ "$HOME/.nix-profile/bin" ];
+      sessionPath = [
+        "$HOME/.local/bin"
+        "$HOME/.nix-profile/bin"
+      ];
     };
 
     # stateVersion >= 25.11 flips macOS apps from linkApps to copyApps: real copies
