@@ -280,15 +280,25 @@ in
           changeps1: False
           always_yes: True
         '';
+        # Keep this npm-only. pnpm reads .npmrc too, but npm warns on every key
+        # it does not recognise ("Unknown user config"), which pollutes the
+        # stderr of any tool shelling out to npm. pnpm settings go in
+        # config.yaml below instead.
         ".npmrc".text = ''
-          # npm/pnpm install global binaries into <prefix>/bin, so this has to be
+          # npm installs global binaries into <prefix>/bin, so this has to be
           # ~/.local (not ~/.local/lib) for them to land on PATH.
           prefix=${config.home.homeDirectory}/.local
+        '';
 
-          # Supply-chain hardening (pnpm 10+): refuse anything published <7 days ago.
-          # https://pnpm.io/settings#minimum-release-age
-          minimum-release-age=10080
-          strict-peer-dependencies=true
+        # pnpm's global config. npm never reads it, so pnpm-only settings here
+        # stay invisible to npm. Path is platform specific -- pnpm resolves it
+        # per-OS, not via XDG on darwin. Keys are camelCase, unlike .npmrc.
+        # Note this is a store symlink, so `pnpm config set --global` cannot
+        # write to it; edit here instead.
+        "${if pkgs.stdenv.isDarwin then "Library/Preferences" else ".config"}/pnpm/config.yaml".text = ''
+          # Supply-chain hardening: refuse anything published <7 days ago.
+          # https://pnpm.io/settings#minimumReleaseAge
+          minimumReleaseAge: 10080
         '';
         ".config/uv/uv.toml".text = ''
           # Supply-chain hardening: ignore packages published in the last 7 days.
