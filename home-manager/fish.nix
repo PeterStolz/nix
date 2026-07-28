@@ -3,7 +3,10 @@
 {
   enable = true;
   interactiveShellInit = ''
-    starship init fish | source
+    # NOTE: starship is initialised by home-manager's
+    # programs.starship.enableFishIntegration (the `TERM != dumb` block), so we
+    # do NOT call `starship init fish` again here — doing so spawned starship +
+    # an extra psub/mktemp on every prompt.
     set fish_greeting # Disable greeting
     set -gx GPG_TTY (tty)
     set -gx LD_LIBRARY_PATH $NIX_LD_LIBRARY_PATH
@@ -32,7 +35,14 @@
       ''
   )
   + ''
-    $MAMBA_EXE shell hook --shell fish --root-prefix $MAMBA_ROOT_PREFIX | source
+    # Lazy-load micromamba: the `shell hook` spawns micromamba and does temp-file
+    # I/O on every interactive shell. Defer it until the first time micromamba is
+    # actually used; the hook then redefines this function with the real one.
+    function micromamba --wraps micromamba
+        functions --erase micromamba
+        $MAMBA_EXE shell hook --shell fish --root-prefix $MAMBA_ROOT_PREFIX | source
+        micromamba $argv
+    end
     # <<< mamba initialize <<<
   ''
   + (

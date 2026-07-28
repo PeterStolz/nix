@@ -133,7 +133,10 @@ in
     };
     zsh = {
       enable = true;
-      initContent = ''
+      # Run this BEFORE home-manager's compinit/starship/kitty init (mkBefore =>
+      # order 500, ahead of compinit at 550). For interactive sessions we exec
+      # straight into fish, so none of that zsh setup work is wasted.
+      initContent = lib.mkBefore ''
         export PATH="$HOME/.nix-profile/bin/:$PATH"
 
         if [[ -o interactive ]]; then
