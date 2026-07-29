@@ -35,6 +35,10 @@ curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix 
 . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
 
 nix registry add nixpkgs github:NixOS/nixpkgs/nixos-26.05
+# Newer Determinate installers point nix-path straight at nixpkgs-weekly, which
+# bypasses the registry pin entirely -- see Gotchas.
+mkdir -p ~/.config/nix && echo 'nix-path = nixpkgs=flake:nixpkgs' > ~/.config/nix/nix.conf
+
 git clone https://github.com/PeterStolz/nix.git ~/nix
 mkdir -p ~/.config && ln -sfn ~/nix/home-manager ~/.config/home-manager
 
@@ -100,9 +104,27 @@ local edit blocks `git pull --ff-only` and drifts silently.
 - **home-manager and nixpkgs must be on the same release.** Mismatches surface as
   confusing option errors deep in unrelated modules (e.g. `release-25.11` against
   nixpkgs 26.05 fails on the neovim plugin submodule).
-- **`<nixpkgs>` resolves through the flake registry**, not just `nix-path`. The
-  Determinate installer redirects it in both places, and a *user* registry entry
-  beats the global one. Verify with `nix-instantiate --find-file nixpkgs` —
-  `nix config show nix-path` will happily report an override that isn't winning.
+- **`<nixpkgs>` only reaches the flake registry if `nix-path` sends it there.**
+  The registry pin (`nix registry add nixpkgs ...`) is not enough on its own —
+  `nix-path` is consulted first, and only an *indirect* ref like `flake:nixpkgs`
+  falls through to the registry. Older Determinate installers wrote exactly that,
+  so the pin took; newer ones (3.17) write a concrete flakeref instead:
+
+  ```
+  extra-nix-path = nixpkgs=flake:https://flakehub.com/f/DeterminateSystems/nixpkgs-weekly/*.tar.gz
+  ```
+
+  which pins nothing and silently ignores the registry — you end up on
+  `nixpkgs-weekly` (26.11pre-git) while home-manager is on `release-26.05`, i.e.
+  the release mismatch above. Fix with a user-level `~/.config/nix/nix.conf`
+  (read last, so it overrides `/etc/nix/nix.conf`):
+
+  ```
+  nix-path = nixpkgs=flake:nixpkgs
+  ```
+
+  Always verify with `nix-instantiate --eval -E '(import <nixpkgs> {}).lib.version'`
+  rather than `nix config show nix-path`, which happily reports an override that
+  isn't winning.
 - Anything darwin-only (`targets.darwin.*`) needs `lib.mkIf pkgs.stdenv.isDarwin`;
   those modules assert on other platforms rather than no-op'ing.
