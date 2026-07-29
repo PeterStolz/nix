@@ -219,6 +219,7 @@ in
           scrollback_lines 100000
           background_opacity 0.9
           cursor                #ffffff
+          tab_title_template "{fmt.fg.red}{bell_symbol}{activity_symbol}{fmt.fg.tab}{tab.last_focused_progress_percent}{title}{' [{}]'.format(num_window_groups) if num_window_groups > 1 else str()}"
         '';
       };
 
