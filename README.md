@@ -90,6 +90,23 @@ environment for *every* `home-manager switch`, not just the first.
 Use these instead of editing a machine's checkout — that is the drift the
 Updating section warns about.
 
+### Shared machines
+
+`/etc/environment` is system-wide, so the `HM_GIT_*` variables cannot differ
+between two people logged into the same box — everyone would commit under one
+author. `HM_HEADLESS`/`HM_NO_SIGN` are fine there because they hold the same
+value for every user on the machine.
+
+For that case drop an untracked `home-manager/local.nix`. It is imported when
+present and gitignored, so `git pull --ff-only` keeps working:
+
+```nix
+{
+  local.git.userName = "Philipp";
+  local.git.userEmail = "philipp@detesia.com";
+}
+```
+
 ## Updating
 
 ```sh

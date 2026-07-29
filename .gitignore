@@ -1,2 +1,3 @@
 hardware-configuration.nix
 .DS_Store
+home-manager/local.nix

@@ -131,7 +131,13 @@ in
     ./git.nix
     ./neovim.nix
     ./vscode.nix
-  ];
+  ]
+  # Untracked per-user overrides, for boxes shared by several people. The
+  # HM_GIT_* variables cannot cover that case: they are read from
+  # /etc/environment, which is system-wide, so every user on the machine would
+  # get the same commit author. A local.nix is per-home, and being untracked it
+  # keeps `git pull --ff-only` working.
+  ++ lib.optional (builtins.pathExists ./local.nix) ./local.nix;
 
   options.local.headless = lib.mkOption {
     type = lib.types.bool;
