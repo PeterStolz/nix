@@ -68,6 +68,12 @@ Two escape hatches, both read from the environment at eval time:
 | --- | --- | --- |
 | `HM_HEADLESS=1` | `local.headless` | Skip everything needing a display — browsers, vscode, kitty, tor-browser. |
 | `HM_NO_SIGN=1` | `local.signCommits` | Turn off `commit.gpgsign`, for boxes with no secret GPG key. Without it every commit there fails outright. |
+| `HM_GIT_NAME` | `local.git.userName` | Commit author name, for machines used by someone else. |
+| `HM_GIT_EMAIL` | `local.git.userEmail` | Commit author email. |
+| `HM_GIT_SIGNINGKEY` | `local.git.signingKey` | GPG key id. Only consulted when signing is on. |
+
+The three `HM_GIT_*` ones take a value rather than a flag, and an empty or unset
+variable falls back to the default rather than blanking the setting.
 
 ```sh
 printf 'HM_HEADLESS=1\nHM_NO_SIGN=1\n' | sudo tee -a /etc/environment
