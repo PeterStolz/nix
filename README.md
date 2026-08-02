@@ -107,6 +107,21 @@ present and gitignored, so `git pull --ff-only` keeps working:
 }
 ```
 
+Machine-local services can be enabled there as well. For example, the MLX-LM
+module runs an OpenAI-compatible inference server on loopback only:
+
+```nix
+{
+  local.mlxLm = {
+    enable = true;
+    model = "Qwen3.6-27B-4bit";
+  };
+}
+```
+
+The executable defaults to `~/qwen-runtime-bench/.venv/bin/mlx_lm.server` and
+the model directory to `~/qwen-runtime-bench/models`; both are overrideable.
+
 ## Updating
 
 ```sh

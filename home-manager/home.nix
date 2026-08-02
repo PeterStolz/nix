@@ -129,6 +129,7 @@ in
     ./firefox.nix
     ./fish.nix
     ./git.nix
+    ./mlx-lm.nix
     ./neovim.nix
     ./vscode.nix
   ]
