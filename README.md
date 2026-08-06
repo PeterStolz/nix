@@ -42,6 +42,9 @@ mkdir -p ~/.config/nix && echo 'nix-path = nixpkgs=flake:nixpkgs' > ~/.config/ni
 git clone https://github.com/PeterStolz/nix.git ~/nix
 mkdir -p ~/.config && ln -sfn ~/nix/home-manager ~/.config/home-manager
 
+# home.nix overlays kind from the nixpkgs-unstable channel — 0.32.0 is ahead of
+# what 26.05 ships, and the overlay references the channel by name.
+nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixpkgs-unstable
 nix-channel --add https://github.com/nix-community/home-manager/archive/release-26.05.tar.gz home-manager
 nix-channel --update
 nix-shell '<home-manager>' -A install
@@ -158,5 +161,12 @@ local edit blocks `git pull --ff-only` and drifts silently.
   Always verify with `nix-instantiate --eval -E '(import <nixpkgs> {}).lib.version'`
   rather than `nix config show nix-path`, which happily reports an override that
   isn't winning.
+- **`home.nix` overlays `kind` from the `nixpkgs-unstable` channel.** The install
+  commands above add it; a machine without it fails at eval, not at switch. The
+  overlay only swaps that one package — everything else stays on 26.05. The
+  channel drifts, so kind may move past 0.32.0 on future switches; pin the
+  channel to a commit (`nix-channel --add
+  https://github.com/NixOS/nixpkgs/archive/<rev>.tar.gz nixpkgs-unstable`) to
+  freeze it.
 - Anything darwin-only (`targets.darwin.*`) needs `lib.mkIf pkgs.stdenv.isDarwin`;
   those modules assert on other platforms rather than no-op'ing.

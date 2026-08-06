@@ -11,7 +11,7 @@ let
   commonPackages = with pkgs; [
     actionlint
     ansible
-    # argocd
+    argocd
     bitwarden-cli
     btop
     # checkov # does not build atm due to cuda_cudart-12.8.90 but works in nix-shell
@@ -91,6 +91,7 @@ let
     trivy
     unzip
     uv
+    velero
     watch
     wget
     yarn-berry_4
@@ -151,6 +152,14 @@ in
   };
 
   config = {
+    # kind 0.32.0 (nixpkgs-unstable) is ahead of the 26.05 channel's 0.31.0 —
+    # pull just this one package from the unstable channel via an overlay.
+    nixpkgs.overlays = [
+      (final: prev: {
+        kind = (import <nixpkgs-unstable> { config = final.config; }).kind;
+      })
+    ];
+
     # Enable Home Manager programs
     programs = {
       delta = {

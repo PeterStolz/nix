@@ -9,6 +9,8 @@ ln -s $PWD/nix/home-manager $PWD/.config/home-manager
 # so bumping only the channel leaves nixpkgs behind and eval fails on missing lib
 # paths (e.g. lib/services/lib.nix).
 nix registry add nixpkgs github:NixOS/nixpkgs/nixpkgs-26.05-darwin
+# kind 0.32.0 is ahead of 26.05 — home.nix overlays it from this channel.
+nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixpkgs-unstable
 nix-channel --add https://github.com/nix-community/home-manager/archive/release-26.05.tar.gz home-manager
 nix-channel --update
 nix-shell '<home-manager>' -A install

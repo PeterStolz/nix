@@ -31,6 +31,10 @@ ln -s nix-portable nix-shell
 
 cd ~
 
+# home.nix overlays kind from the nixpkgs-unstable channel — must exist for eval.
+NP_RUNTIME=bwrap nix-portable nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixpkgs-unstable
+NP_RUNTIME=bwrap nix-portable nix-channel --update
+
 # Init home-manager
 NP_RUNTIME=bwrap nix-portable nix shell nixpkgs#{bashInteractive,nix} <<EOF
 nix run github:nix-community/home-manager -- init
