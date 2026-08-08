@@ -124,6 +124,21 @@ let
   # environment from there.
   fishExe = "${pkgs.fish}/bin/fish";
 
+  # On non-NixOS Linux the Nix-built kitty depends on libglvnd but no mesa driver
+  # is in its closure, so at runtime glvnd finds no GLX vendor library. kitty then
+  # dies with "GLX: No GLXFBConfigs returned" -> "Failed to create GLFW temp
+  # window". nixGL wraps GPU apps with a Nix mesa that still drives the host
+  # kernel's GPU (the stable DRM ABI), which the HM nixGL module below applies via
+  # config.lib.nixGL.wrap. Channel-fetched because this repo is channel-based, not
+  # a flake; the module understands this layout. Only forced in the Linux kitty
+  # branch, so darwin and headless boxes never fetch or build it.
+  nixGL = import (pkgs.fetchFromGitHub {
+    owner = "nix-community";
+    repo = "nixGL";
+    rev = "b6105297e6f0cd041670c3e8628394d4ee247ed5";
+    hash = "sha256-fbRQzIGPkjZa83MowjbD2ALaJf9y6KMDdJBQMKFeY/8=";
+  }) { inherit pkgs; };
+
 in
 {
   imports = [
@@ -227,6 +242,11 @@ in
 
       kitty = lib.mkIf (!config.local.headless) {
         enable = true;
+        # Wrap with nixGL on non-NixOS Linux so kitty finds a working GL/GLX
+        # driver (see the nixGL note in the let block). Passthrough on darwin,
+        # which has its own system GL and no nixGL package set.
+        package =
+          if pkgs.stdenv.isLinux then config.lib.nixGL.wrap pkgs.kitty else pkgs.kitty;
         themeFile = "BirdsOfParadise";
         keybindings = {
           "ctrl+alt+enter" = "launch --cwd=current";
@@ -350,6 +370,12 @@ in
       copyApps.enable = false;
       linkApps.enable = true;
     };
+
+    # Give config.lib.nixGL.wrap (used on the kitty package above) a package set
+    # to wrap with. The default "mesa" wrapper maps to nixGL's nixGLIntel, which
+    # despite the name drives any mesa GPU including this AMD Radeon. Linux-only:
+    # on darwin the option is left null and wrap is a no-op passthrough.
+    targets.genericLinux.nixGL.packages = lib.mkIf pkgs.stdenv.isLinux nixGL;
 
     nixpkgs.config = {
       allowUnfree = true;

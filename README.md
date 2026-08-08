@@ -170,3 +170,13 @@ local edit blocks `git pull --ff-only` and drifts silently.
   freeze it.
 - Anything darwin-only (`targets.darwin.*`) needs `lib.mkIf pkgs.stdenv.isDarwin`;
   those modules assert on other platforms rather than no-op'ing.
+- **kitty needs nixGL on non-NixOS Linux.** The Nix-built kitty pulls in libglvnd
+  but no mesa driver, so on a non-NixOS box glvnd finds no GLX vendor library and
+  kitty dies at startup with `GLX: No GLXFBConfigs returned` → `Failed to create
+  GLFW temp window`. `home.nix` wraps the kitty package with
+  `config.lib.nixGL.wrap` (home-manager's `targets.genericLinux.nixGL`
+  integration, fed a channel-pinned `nixGL`), which injects a Nix mesa that drives
+  the host kernel's GPU. The `mesa` wrapper (nixGL's `nixGLIntel`) covers AMD and
+  Intel alike; only Nvidia needs a different wrapper and an `--impure` switch. On
+  NixOS and darwin the wrap is a no-op passthrough. The pinned nixGL rev drifts
+  from upstream; bump it in the `let` block when a mesa/driver mismatch appears.
