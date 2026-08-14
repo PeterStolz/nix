@@ -28,7 +28,7 @@ let
 
     # Bump on ANY behavior change — login/whoami print it so a stale binary
     # (user forgot home-manager switch) is diagnosable from a pasted transcript.
-    VERSION = "4"
+    VERSION = "5"
     DEVICE_URL = "https://auth.cluster.detesia.com/application/o/device/"
     TOKEN_URL = "https://auth.cluster.detesia.com/application/o/token/"
     CLIENT_ID = "detesia-cli"
@@ -112,9 +112,16 @@ let
         if "device_code" not in device:
             print(f"device authorization failed: {device}", file=sys.stderr)
             return 1
-        print(f"Open:  {device.get('verification_uri_complete') or device['verification_uri']}")
+        url = device.get("verification_uri_complete") or device["verification_uri"]
+        print(f"Open:  {url}")
         print(f"Code:  {device['user_code']}")
         print(f"(expires in {device.get('expires_in', '?')}s)")
+        # Convenience only — headless/SSH sessions fall back to the printed URL.
+        try:
+            import webbrowser
+            webbrowser.open(url)
+        except Exception:
+            pass
         interval = int(device.get("interval", 5))
         deadline = time.time() + int(device.get("expires_in", 300))
         while time.time() < deadline:
