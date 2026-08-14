@@ -26,6 +26,9 @@ let
     import urllib.parse
     import urllib.request
 
+    # Bump on ANY behavior change — login/whoami print it so a stale binary
+    # (user forgot home-manager switch) is diagnosable from a pasted transcript.
+    VERSION = "4"
     DEVICE_URL = "https://auth.cluster.detesia.com/application/o/device/"
     TOKEN_URL = "https://auth.cluster.detesia.com/application/o/token/"
     CLIENT_ID = "detesia-cli"
@@ -104,6 +107,7 @@ let
 
 
     def login() -> int:
+        print(f"detesia cli v{VERSION} (client {CLIENT_ID}, scopes: {SCOPES})")
         device = _post(DEVICE_URL, {"client_id": CLIENT_ID, "scope": SCOPES})
         if "device_code" not in device:
             print(f"device authorization failed: {device}", file=sys.stderr)
@@ -165,8 +169,24 @@ let
         return 0
 
 
+    def whoami() -> int:
+        import io, contextlib
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            if token() != 0:
+                return 1
+        seg = buf.getvalue().strip().split(".")[1]
+        seg += "=" * (-len(seg) % 4)
+        import base64
+        claims = json.loads(base64.urlsafe_b64decode(seg))
+        out = {"cli_version": VERSION}
+        out.update({k: claims.get(k) for k in ("preferred_username", "scope", "groups", "iss", "exp")})
+        print(json.dumps(out, indent=2))
+        return 0
+
+
     if __name__ == "__main__":
-        sys.exit({"login": login, "token": token}[sys.argv[1]]())
+        sys.exit({"login": login, "token": token, "whoami": whoami}[sys.argv[1]]())
   '';
 
   detesia = pkgs.writeShellScriptBin "detesia" ''
@@ -185,8 +205,7 @@ let
           "$@"
         ;;
       whoami)
-        "$PY" -u ${authScript} token | cut -d. -f2 \
-          | "$PY" -c 'import base64,json,sys; s=sys.stdin.read().strip(); s+="="*(-len(s)%4); c=json.loads(base64.urlsafe_b64decode(s)); print(json.dumps({k:c.get(k) for k in ("preferred_username","scope","groups","iss","exp")}, indent=2))'
+        exec "$PY" -u ${authScript} whoami
         ;;
       *)
         echo "usage: detesia {login|token|curl <args>|whoami}" >&2
