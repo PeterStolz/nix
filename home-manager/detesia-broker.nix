@@ -30,7 +30,9 @@ let
     DEVICE_URL = "https://auth.cluster.detesia.com/application/o/device/"
     TOKEN_URL = "https://auth.cluster.detesia.com/application/o/token/"
     CLIENT_ID = "detesia-cli"
-    SCOPES = "openid offline_access observability:read grafana:read"
+    # qonto:read is requested by everyone but person-gated in Authentik
+    # (qonto-users group) — non-members simply get a token without it.
+    SCOPES = "openid offline_access observability:read grafana:read qonto:read"
     KEYCHAIN_SERVICE = "detesia-broker-refresh-token"
     STATE_DIR = pathlib.Path(
         os.environ.get("XDG_STATE_HOME", pathlib.Path.home() / ".local/state")
