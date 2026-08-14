@@ -142,6 +142,7 @@ let
 in
 {
   imports = [
+    ./detesia-broker.nix
     ./firefox.nix
     ./fish.nix
     ./git.nix
