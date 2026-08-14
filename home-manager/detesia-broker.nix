@@ -28,32 +28,16 @@ let
 
     DEVICE_URL = "https://auth.cluster.detesia.com/application/o/device/"
     TOKEN_URL = "https://auth.cluster.detesia.com/application/o/token/"
-    # Per-person authorization lives in Authentik as separate OAuth clients
-    # whose applications are policy-bound to a gate group (scope mapping
-    # expressions can NOT withhold a scope — verified 2026-08-14). Selecting a
-    # profile selects the client; keychain/cache entries are per-profile.
-    PROFILES = {
-        "default": {
-            "client_id": "detesia-cli",
-            "scopes": "openid offline_access observability:read grafana:read",
-        },
-        "qonto": {
-            "client_id": "detesia-qonto",
-            "scopes": "openid offline_access qonto:read",
-        },
-    }
-    PROFILE = os.environ.get("DETESIA_PROFILE", "default")
-    if PROFILE not in PROFILES:
-        sys.exit(f"unknown DETESIA_PROFILE {PROFILE!r}; known: {', '.join(PROFILES)}")
-    CLIENT_ID = PROFILES[PROFILE]["client_id"]
-    SCOPES = PROFILES[PROFILE]["scopes"]
-    # The default profile keeps the original names so existing sessions survive.
-    _suffix = "" if PROFILE == "default" else f"-{PROFILE}"
-    KEYCHAIN_SERVICE = "detesia-broker-refresh-token" + _suffix
+    CLIENT_ID = "detesia-cli"
+    # profile carries the groups claim: per-person broker routes (e.g. /qonto)
+    # authorize on Authentik group membership at the gateway, so one login
+    # covers everything the person is entitled to.
+    SCOPES = "openid profile offline_access observability:read grafana:read"
+    KEYCHAIN_SERVICE = "detesia-broker-refresh-token"
     STATE_DIR = pathlib.Path(
         os.environ.get("XDG_STATE_HOME", pathlib.Path.home() / ".local/state")
     ) / "detesia"
-    ACCESS_CACHE = STATE_DIR / f"access-token{_suffix}.json"
+    ACCESS_CACHE = STATE_DIR / "access-token.json"
 
 
     def _post(url: str, form: dict) -> dict:
@@ -202,10 +186,10 @@ let
         ;;
       whoami)
         "$PY" -u ${authScript} token | cut -d. -f2 \
-          | "$PY" -c 'import base64,json,sys; s=sys.stdin.read().strip(); s+="="*(-len(s)%4); c=json.loads(base64.urlsafe_b64decode(s)); print(json.dumps({k:c.get(k) for k in ("sub","scope","iss","exp")}, indent=2))'
+          | "$PY" -c 'import base64,json,sys; s=sys.stdin.read().strip(); s+="="*(-len(s)%4); c=json.loads(base64.urlsafe_b64decode(s)); print(json.dumps({k:c.get(k) for k in ("preferred_username","scope","groups","iss","exp")}, indent=2))'
         ;;
       *)
-        echo "usage: [DETESIA_PROFILE=qonto] detesia {login|token|curl <args>|whoami}" >&2
+        echo "usage: detesia {login|token|curl <args>|whoami}" >&2
         echo "  broker: https://broker.cluster.detesia.com (/mimir /loki /tempo /grafana /qonto)" >&2
         exit 64
         ;;
