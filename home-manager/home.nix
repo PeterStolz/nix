@@ -45,6 +45,7 @@ let
     keepassxc
     kind
     kubectl
+    kubelogin-oidc
     kubernetes-helm
     kustomize
     lakectl
