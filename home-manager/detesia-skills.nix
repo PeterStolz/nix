@@ -66,7 +66,14 @@ in
       if [[ ! -d "$repo/.git" ]]; then
         ${pkgs.coreutils}/bin/mkdir -p "$parent"
         echo "Cloning Detesia/skills into $repo"
-        ${pkgs.gh}/bin/gh repo clone Detesia/skills "$repo" -- --branch main
+        PATH=${
+          lib.escapeShellArg (
+            lib.makeBinPath [
+              pkgs.git
+              pkgs.openssh
+            ]
+          )
+        } ${pkgs.gh}/bin/gh repo clone Detesia/skills "$repo" -- --branch main
       else
         remote="$(${pkgs.git}/bin/git -C "$repo" remote get-url origin)"
         case "$remote" in
