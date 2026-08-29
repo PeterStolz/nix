@@ -144,6 +144,7 @@ in
 {
   imports = [
     ./detesia-broker.nix
+    ./detesia-skills.nix
     ./firefox.nix
     ./fish.nix
     ./git.nix
@@ -247,8 +248,7 @@ in
         # Wrap with nixGL on non-NixOS Linux so kitty finds a working GL/GLX
         # driver (see the nixGL note in the let block). Passthrough on darwin,
         # which has its own system GL and no nixGL package set.
-        package =
-          if pkgs.stdenv.isLinux then config.lib.nixGL.wrap pkgs.kitty else pkgs.kitty;
+        package = if pkgs.stdenv.isLinux then config.lib.nixGL.wrap pkgs.kitty else pkgs.kitty;
         themeFile = "BirdsOfParadise";
         keybindings = {
           "ctrl+alt+enter" = "launch --cwd=current";

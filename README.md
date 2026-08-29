@@ -134,6 +134,18 @@ cd ~/nix && git pull && home-manager switch -b backup
 Fix things in the repo and pull, rather than editing a machine's checkout — a
 local edit blocks `git pull --ff-only` and drifts silently.
 
+Home Manager also maintains the private `Detesia/skills` checkout at
+`~/detesia/repos/skills`. On the first activation it clones through the current
+user's `gh` login. Later activations fast-forward a clean `main` checkout; they
+leave another branch or any local changes untouched. The skills themselves stay
+outside `/nix/store`, while Home Manager owns their symlinks in
+`~/.agents/skills` and `~/.claude/skills`.
+
+The `detesia` broker CLI is installed on both Darwin and Linux. Refresh tokens
+live in the macOS Keychain on Darwin and in a mode-0600 file below
+`$XDG_STATE_HOME/detesia` on headless Linux. Credential values never enter the
+Nix expression or store.
+
 ## Gotchas
 
 - **home-manager and nixpkgs must be on the same release.** Mismatches surface as
