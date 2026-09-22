@@ -10,6 +10,7 @@ let
   repoPath = cfg.checkoutPath;
   skills = [
     "communications"
+    "detesia"
     "detesia-observability"
     "detesia-pipedrive"
     "hermes-docs"
