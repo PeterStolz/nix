@@ -11,6 +11,7 @@ let
   skills = [
     "communications"
     "detesia"
+    "detesia-matrix"
     "detesia-observability"
     "detesia-pipedrive"
     "hermes-docs"
