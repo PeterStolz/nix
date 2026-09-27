@@ -31,14 +31,14 @@ let
 
     # Bump on ANY behavior change — login/whoami print it so a stale binary
     # (user forgot home-manager switch) is diagnosable from a pasted transcript.
-    VERSION = "6"
+    VERSION = "7"
     DEVICE_URL = "https://auth.cluster.detesia.com/application/o/device/"
     TOKEN_URL = "https://auth.cluster.detesia.com/application/o/token/"
     CLIENT_ID = "detesia-cli"
     # profile carries the groups claim: per-person broker routes (e.g. /qonto)
     # authorize on Authentik group membership at the gateway, so one login
     # covers everything the person is entitled to.
-    SCOPES = "openid profile offline_access observability:read grafana:read"
+    SCOPES = "openid profile offline_access observability:read grafana:read posthog:read"
     KEYCHAIN_SERVICE = "detesia-broker-refresh-token"
     CREDENTIAL_BACKEND = "${if pkgs.stdenv.isDarwin then "macOS Keychain" else "private state file"}"
     STATE_DIR = pathlib.Path(
