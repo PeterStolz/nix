@@ -24,6 +24,7 @@ let
     duckdb
     exiftool
     ffmpeg_7
+    forgejo-cli
     file
     gh
     ghostscript
